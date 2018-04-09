@@ -1,0 +1,13 @@
+@include block('contentgrid'){
+    grid-row: 1;
+    grid-column: 2 / 11;
+    text-align: left;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    @include section();
+    //@include  element('md')
+    p,div:first-child{
+        grid-column: 2 / 12;
+    }
+    
+}

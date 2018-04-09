@@ -1,0 +1,31 @@
+::selection {
+    color: #fff;
+    text-shadow: none;
+    background: #d33a2c; 
+     
+}
+
+@import url('https://fonts.googleapis.com/css?family=Merriweather:300,300i,400,600,700,700i&subset=latin-ext');
+@import url('https://fonts.googleapis.com/css?family=Poppins:300,300i,400,600,700,700i&subset=latin-ext');
+
+$font-family-sans-serif1:      -apple-system, BlinkMacSystemFont, "Merriweather", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
+$font-family-sans-serif:      "Merriweather",  "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
+$font-family-heading-sans-serif: "Poppins",  "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
+$font-family-monospace:       SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !default;
+
+$font-family-base:            $font-family-sans-serif !default;
+$font-family-heading:         $font-family-heading-sans-serif;
+
+$font-family-heading-weight:  700;
+
+$font-base-letter-spacing:    0.5px;
+$font-heading-letter-spacing: 0.5px;
+
+$font-weight-bold:             700;
+$font-weight-normal:           400;
+$font-weight-thin:             300;
+
+$font-link-letter-spacing:    0px;
+
+
+

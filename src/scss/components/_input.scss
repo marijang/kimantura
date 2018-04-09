@@ -1,0 +1,21 @@
+input {
+  font-size: 18px; /* font-size is up to you, not required */
+  padding: 10px;   /* padding is up to you */
+  display: block;  /* just to make sure display is block */
+  width: 100%;     /* width is up to you */
+  }
+  label {
+    font-size: 18px;      /* up to you, I matched the <input> style */
+    font-weight: normal;  /* up to you, not required */
+    left: 10px;           /* determines space to left of label */
+    top: 13px;            /* determines space above label */
+    pointer-events: none; /* enables click through on label */
+    transition: 0.2s ease all;        /* determines animation during */
+    -moz-transition: 0.2s ease all;      /* user interaction */
+    -webkit-transition:0.2s ease all;
+    }
+
+    input:focus ~ label, input:valid ~ label {
+      top: -20px;        /* where the label goes upon interaction */
+      font-size: 14px;   /* font-size change on interaction */
+      }

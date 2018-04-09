@@ -1,0 +1,49 @@
+$link-color:                #3DC19E;
+$link-decoration:           none !default;
+$link-hover-color:          darken(#3DC19E,20%);
+$link-hover-decoration:     underline !default;
+
+
+$title-link-color: #262626;
+$title-hover-color: #262626;
+
+$primary-color: #3DC19E;
+
+
+// Text colors
+$base-text-color: #333;
+$base-text-light-color: #8B8B8B;
+
+// Link colors
+$base-link-color:#3DC19E;
+$base-link-muted-color: #333;
+$base-link-hover-color: darken(#3DC19E, 10%);
+
+
+$navigation-link-color: #333;
+$navigation-hover-color: red;
+
+$button-primary-color: $navigation-link-color;
+$button-primary-hover-color: #fff;
+$button-primary-border-color: #000;
+$button-primary-background-color: $link-hover-color;
+$button-primary-background-hover-color: #000;
+
+
+// Border
+$base-border-color: #E0E0E0;
+
+// My account
+$dashboard-nav-color:$navigation-link-color;
+$dashboard-nav-hover-color:$navigation-hover-color;
+$dashboard-nav-active-color:$navigation-hover-color;
+
+
+$post-title-link-color: #424242;
+$post-title-hover-color: #424242;
+
+$footer-bg-color-primary: #F9F9F9;
+$footer-bg-color-secondary: #F2F2F2;
+$footer-text-color: #424242;
+$footer-link-color: #424242;
+$footer-hover-color: #424242;

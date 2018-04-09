@@ -1,0 +1,29 @@
+.post__item{
+  display: flex;
+  position: relative;
+  margin-bottom: $global-section-margin-bottom;
+}
+.post__title a{
+  color: $post-title-link-color;
+  &:hover{
+
+  }
+}
+.post__info{
+  flex: 1;
+  background: $post-info-bg-color;
+  padding: vr(2);
+  margin-top: vr(3);
+  box-shadow: 0 4px 18.9px 2.1px rgba(205,193,193,0.15);
+}
+.post__image{
+    margin-bottom: $grid-gutter-width*2;
+    flex: 1;
+    
+    img{
+        width: 100%;
+        vertical-align: middle;
+    }
+}
+
+

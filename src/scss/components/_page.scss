@@ -1,0 +1,45 @@
+.single-post{
+    .page__content p{
+        margin-left: $grid-gutter*18;
+    }
+}
+
+@include block('page'){
+    @include element('content'){
+    
+    }
+    @include element('article'){
+        @include section();
+    }
+    @include element('title'){
+        margin-bottom: 0;
+    }
+  
+
+    
+    @include element('description'){
+        font-weight: $font-weight-thin;
+        margin-bottom: vr(2);
+    }
+    @include element('title-main'){
+        display: block;
+    }
+    @include element('title-subtitle'){
+        display: block;
+        @include typi('p'); 
+        margin-top: 0px;
+        margin-bottom: vr(1);
+        font-weight: $font-weight-thin;
+        //@include font-size(0.7);
+    }
+
+    @include element('image'){
+       @include section();
+       position: relative;
+       overflow: hidden;
+       img{
+           width: 100%;
+       }
+    }
+
+}

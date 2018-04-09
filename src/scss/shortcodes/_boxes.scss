@@ -1,0 +1,29 @@
+@include block('boxes'){
+    display: flex;
+    margin-top:  $global-section-margin-bottom;
+    h4{
+        margin-top:0px;
+    }
+    p{
+        font-weight: 300;
+    }
+    @include  element('item'){
+        flex:1;
+        position: relative;
+        margin-left: 64px;
+        &:first-child{
+            margin-left: 0px;
+        }
+    }
+    @include  element('number'){
+        position: absolute;
+        height: 146px;
+        top: -56px;
+        left: -40px;
+        letter-spacing: 5px;
+      //  @include font-size(5);
+        font-weight: 500;
+        opacity: 0.4;
+    }
+    
+}

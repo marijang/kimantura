@@ -1,0 +1,15 @@
+input, button, button:focus, a, img {
+    outline: 0;
+}
+
+:focus {
+    outline: none;
+}
+
+a{
+    color: $link-color;
+    text-decoration: $link-decoration;
+    &:hover{
+        color: $link-hover-color;
+    }
+}

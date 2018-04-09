@@ -1,0 +1,38 @@
+// Grid containers
+//
+// Define the maximum width of `.container` for different screen sizes.
+
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1280px
+) !default;
+
+
+$media-breakpoints: (
+  mobile: 0 767,
+  tablet: 768 991,
+  desktop: 992 1199,
+  large: 1200
+);
+
+
+
+$breakpoints: (
+  small: 600px,
+  large: 1200px
+);
+
+$breakpoints1: $media-breakpoints;
+
+$grid-gutter-width: 32px;
+$global-header-height: 250px;
+
+
+
+$global-section-margin-bottom: 32px;
+
+
+
+

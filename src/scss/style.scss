@@ -1,0 +1,159 @@
+//@import "susy";
+@import 'typi';
+@import 'modularscale';
+@import 'bem';
+
+//@import 'media-blender';
+//@import '../../node_modules/shevy/core/shevy';
+@import "../../node_modules/bourbon/core/bourbon";
+//@import "../../node_modules/sass-bem/bem";
+
+
+
+@import 'vendor/**/*';
+@import 'overrides/**/*';
+@import 'config';
+@import 'utils/**/*';
+@import 'core';
+@import 'components/**/*';
+@import 'shortcodes/**/*';
+@import 'woocommerce/**/*';
+@import 'pages/**/*';
+@import 'shame';
+
+
+
+
+/*--------------------------------------------------------------
+# Accessibility
+--------------------------------------------------------------*/
+/* Text meant only for screen readers. */
+.screen-reader-text {
+	border: 0;
+	clip: rect(1px, 1px, 1px, 1px);
+	clip-path: inset(50%);
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute !important;
+	width: 1px;
+	word-wrap: normal !important; /* Many screen reader and browser combinations announce broken words as they would appear visually. */
+}
+
+
+.screen-reader-text:focus {
+	background-color: #f1f1f1;
+	border-radius: 3px;
+	box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
+	clip: auto !important;
+	clip-path: none;
+	color: #21759b;
+	display: block;
+	font-size: 14px;
+	font-size: 0.875rem;
+	font-weight: bold;
+	height: auto;
+	left: 5px;
+	line-height: normal;
+	padding: 15px 23px 14px;
+	text-decoration: none;
+	top: 5px;
+	width: auto;
+	z-index: 100000;
+	/* Above WP toolbar. */
+}
+
+/* Do not show the outline on the skip link target. */
+#content[tabindex="-1"]:focus {
+	outline: 0;
+}
+
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+html {
+    font-family: $font-family-sans-serif;
+    box-sizing: border-box;
+    color: #333;
+}
+
+  
+
+table {
+  &:nth-of-type(1) {
+      @extend %table;
+  }
+  &:nth-of-type(2) {
+      @extend %table;
+      @extend %table-condensed;
+  }
+  &:nth-of-type(3) {
+      @extend %table;
+      @extend %table-bordered
+  }
+
+}
+  
+
+  .grid1 {
+    background-image: linear-gradient(to bottom,rgba(0,170,255,.3) 1px,transparent 1px);
+    background-image: linear-gradient(rgba(0,170,255,.3) 1px, transparent 1px);
+    background-size: auto 1.4em;
+    background-position: left top;
+    background-repeat: repeat;
+    background-size: 100% 1.4rem;
+    @include media(large) {
+     
+      background-size: 115% 1.4rem;
+      
+    }
+
+}
+
+
+
+.page-header1 {
+    grid-row: 1;
+    grid-column: 1 / 13;
+    text-align: left;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+}
+
+
+
+
+
+  
+
+
+$large-screens: (
+  'columns': susy-repeat(12, 4em),
+  'gutters': 1em,
+);
+
+//540px	720px	960px	1140px
+// 740, 960, 1100, 1280 
+// Padding
+.container {
+    //display: grid;
+    //grid-template-columns: 1fr;
+   
+    //grid-gap: 16px;
+    align-content: center;
+    //padding: 0 10px;
+    width: 100%;
+
+    @include container(xl);
+     
+}
+
+
+
+
+
+

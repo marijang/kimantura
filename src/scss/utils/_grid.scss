@@ -1,0 +1,31 @@
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1280px
+) !default;
+
+$grid-gutter-width:           32px !default;
+$grid-gutter: $grid-gutter-width/2;
+
+@mixin container($key:xl) {
+  max-width:container-width($key);
+  margin: 0 auto;
+  @media (min-width: 768px) {
+    max-width:container-width(md);
+  }
+  @media (min-width: 992px) {
+    max-width:container-width(lg);
+  }
+  @media (min-width: 1200px) {
+     max-width:container-width(xl); 
+  }
+}
+
+@function container-width($key) {
+    @if map-has-key($container-max-widths, $key) {
+      @return map-get($container-max-widths, $key);
+    }
+    @warn "Unknown `#{$key}` in $container-max-widths.";
+    @return null;
+  }
