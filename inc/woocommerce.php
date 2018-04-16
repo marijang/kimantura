@@ -289,15 +289,60 @@ if ( ! function_exists( 'b4b_woocommerce_before_shop_loop_item' ) ) {
 }
 add_action( 'woocommerce_before_shop_loop_item', 'b4b_woocommerce_before_shop_loop_item', 40 );
 
+if ( ! function_exists( 'b4b_woocommerce_after_main_content' ) ) {
+	/**
+	 * Afer Content.
+	 *
+	 * Wraps all WooCommerce content in wrappers which match the theme markup.
+	 *
+	 * @return void
+	 */
+	function b4b_woocommerce_after_main_content() {		
+		$args = array( 'numberposts' => '1' );
+        echo '<h1 class="page__title">'.__('Last news').'</h1>';
+		global $wpdb,$post;
+		$result = $wpdb->get_results("
+			SELECT $wpdb->posts.* 
+			FROM   $wpdb->posts 
+			WHERE  post_type = 'post' 
+			AND    post_status = 'publish'
+			limit 1
+		");
+		$result = get_posts( $args ) ;
+		foreach($result as $post):
+		  setup_postdata($post);
+		  get_template_part( 'template-parts/content-blog', get_post_type() ); 
+		endforeach;
+
+		wp_reset_postdata();	
+
+
+	}
+}
+add_action( 'woocommerce_after_main_content', 'b4b_woocommerce_after_main_content', 40 );
+
+
 
 add_filter( 'woocommerce_loop_add_to_cart_link', 'quantity_inputs_for_woocommerce_loop_add_to_cart_link', 10, 2 );
 function quantity_inputs_for_woocommerce_loop_add_to_cart_link( $html, $product ) {
 	if ( $product && $product->is_type( 'simple' ) && $product->is_purchasable() && $product->is_in_stock() && ! $product->is_sold_individually() ) {
-		$html = '<a href="' . esc_url( $product->add_to_cart_url() ) . '" class="btn btn--primary" >';
+		//$html = '<a href="' . esc_url( $product->add_to_cart_url() ) . '" class="btn btn--primary" >';
+		$html = '<a href="' . esc_url( get_permalink($product->get_ID())) . '" class="btn btn--primary" >';
+		
 		//$html .= woocommerce_quantity_input( array(), $product, false );
 		$html .= '' . esc_html( $product->add_to_cart_text() ) . '';
+
+		$html .= '</a>';
+	}else{
+		$html = '<a href="' . esc_url( get_permalink($product->get_ID())) . '" class="btn btn--primary" >';
+		
+		//$html .= woocommerce_quantity_input( array(), $product, false );
+		$html .= '' . __( 'View product' ) . '';
+
 		$html .= '</a>';
 	}
+
+
 	return $html;
 }
 
@@ -337,6 +382,7 @@ add_action( 'woocommerce_after_checkout_form', 'b4b_woocommerce_after_checkout_f
 
 
     function b4b_wc_category_description() {
+		global $post;
         if ( is_product_category() ) {
             global $wp_query;
             $cat_id = $wp_query->get_queried_object_id();
@@ -345,11 +391,23 @@ add_action( 'woocommerce_after_checkout_form', 'b4b_woocommerce_after_checkout_f
             echo $subtit;
         }else{
 			echo '<p class="page__description">'.__('Odaberite kategoriju proizvoda'). '</p>';
-			echo the_subtitle( '<p class="page__description">', '</p>' );
+			the_subtitle( '<p class="page__description">', '</p>' );
+		}
+		if( function_exists( 'the_subtitle' ) && function_exists( 'is_shop' ) && is_shop() ) {
+			the_subtitle( '<h2 class="subtitle">', '</h2>' );
 		}
 	}
 	
-add_action( 'woocommerce_archive_description', 'b4b_wc_category_description' );
+add_action( 'woocommerce_archive_description', 'b4b_wc_category_description',0,0 );
+// remove the action 
+//remove_action( 'woocommerce_archive_description', 'action_woocommerce_archive_description', 10, 2 );
+
+
+add_action('woocommerce_archive_description', 'wp176545_add_feature_image');
+
+function wp176545_add_feature_image() {
+	echo '<div class="page__image">'.get_the_post_thumbnail( get_option( 'woocommerce_shop_page_id') ) . '</div>';
+}
 
 
 // Makni  breadcrumb

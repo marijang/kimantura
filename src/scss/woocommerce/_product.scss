@@ -23,13 +23,20 @@
   ul {
     margin: 0;
     padding: 0;
+    >li>label{
+      
+    }
   }
 
   li {
     border-bottom: 1px solid $base-border-color;
     list-style: none;
+    margin: 0px!important;
+    input{
+      margin-left: $grid-gutter;
+    }
 
-    > a {
+    > a, > label {
       color: $base-link-muted-color;
       display: block;
       padding: $accordion-menu-list-padding;
@@ -53,10 +60,11 @@
     display: none;
 
     li {
-      background-color: $accordion-menu-sub-background;
-      
+      //background-color: $accordion-menu-sub-background;
+      border: none;
+      padding: 8px;
       &:first-child {
-        border-top: $accordion-menu-border;
+        //border-top: $accordion-menu-border;
        //box-shadow: inset 0 1px 1px $accordion-menu-sub-inset;
       }
 
@@ -75,6 +83,42 @@
     }
   }
 }
+
+.woof_list_checkbox{
+  @extend  %accordion;
+}
+.woof_is_opened{
+  font-family: "Font Awesome 5 Solid";   
+  content: "\f077";
+  background: url(img/stre-down.png)!important;
+}
+.woof_is_closed{
+  font-family: "Font Awesome 5 Solid";   
+  content: "\f077";
+  background: url(img/stre-up.png)!important;
+}
+.woof_childs_list_opener{
+  float:right;
+}
+.woof_childs_list{
+  margin: 0px!important;;
+  padding: 0px!important;;
+}
+.woof_childs_list_li{
+  >input {
+    display: none;
+  }
+  >label{
+    font-weight: $font-weight-bold;
+    .woof_checkbox_count{
+      display: none!important;
+  
+    }
+  }
+  
+}
+
+
 
 .product-categories{
    @extend  %accordion;
@@ -118,6 +162,9 @@
   }
 }
 
+
+
+
 /*
 
 var allPanels = $('.product-categories > ul').hide();
@@ -127,10 +174,10 @@ $('.product-categories > ul > a').click(function() {
  return false; 
 });
 */
-.up-sells.products,.related.products{
+.up-sells.products1,.related.products1{
   display: flex;
 }
-.product{
+.product1{
   display: flex;
   position: relative;
   flex-wrap: wrap;
@@ -148,16 +195,39 @@ $('.product-categories > ul > a').click(function() {
   color: $base-link-muted-color;
   position: relative;
   display: block;
+  overflow: hidden;
   .onsale{
     position:absolute;
-    left: 0px;
-    top:0px;
+    top: 0px;
+    right:0px;
+    height:64px;
+    color: #fff;
+    padding: $grid-gutter;
+    @include typi('small');
+    &::after{
+      display: block;
+      position: absolute;
+      background: $base-link-color;
+      content: '';
+      width: 190px;
+      height: 150px;
+      -ms-transform: translate(50%, -70%) rotate(45deg);
+      transform: rotate(45deg);
+      /* padding: 48px; */
+      z-index: -1;
+      position: absolute;
+      left: -28px;
+      top: -77px;
+    }
+   // 
   }
+
   &:hover{
     color: $base-link-color;
   }
   .price{
-    margin: vr(1) 0;
+    margin: 0;
+    padding-bottom: $grid-gutter;
     display: block;
   }
 }

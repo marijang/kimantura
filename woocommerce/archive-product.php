@@ -105,7 +105,9 @@ if ( have_posts() ) {
 	 */
 	do_action( 'woocommerce_no_products_found' );
 }
+?>
 
+<?php
 /**
  * Hook: woocommerce_after_main_content.
  *

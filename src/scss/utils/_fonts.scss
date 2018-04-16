@@ -13,8 +13,9 @@ $font-family-sans-serif:      "Merriweather",  "Helvetica Neue", Arial, sans-ser
 $font-family-heading-sans-serif: "Poppins",  "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
 $font-family-monospace:       SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !default;
 
-$font-family-base:            $font-family-sans-serif !default;
+$font-family-base:            $font-family-heading-sans-serif;
 $font-family-heading:         $font-family-heading-sans-serif;
+$font-family-paragraph:       $font-family-sans-serif;
 
 $font-family-heading-weight:  700;
 
@@ -22,6 +23,7 @@ $font-base-letter-spacing:    0.5px;
 $font-heading-letter-spacing: 0.5px;
 
 $font-weight-bold:             700;
+$font-weight-medium:           600;
 $font-weight-normal:           400;
 $font-weight-thin:             300;
 

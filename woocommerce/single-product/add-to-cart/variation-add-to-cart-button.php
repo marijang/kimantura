@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 global $product;
 ?>
-<div class="woocommerce-variation-add-to-cart variations_button">
+<div class="woocommerce-variation-add-to-cart variations_button single-product__variations-button">
 	<?php
 		/**
 		 * @since 3.0.0.
@@ -31,7 +31,7 @@ global $product;
 		 */
 		do_action( 'woocommerce_after_add_to_cart_quantity' );
 	?>
-	<button type="submit" class="single_add_to_cart_button button alt"><?php echo esc_html( $product->single_add_to_cart_text() ); ?></button>
+	<button type="submit" class="single_add_to_cart_button button alt btn btn--primary btn--small"><i class="fa fa-cart-plus"></i> <?php echo esc_html( $product->single_add_to_cart_text() ); ?></button>
 	<input type="hidden" name="add-to-cart" value="<?php echo absint( $product->get_id() ); ?>" />
 	<input type="hidden" name="product_id" value="<?php echo absint( $product->get_id() ); ?>" />
 	<input type="hidden" name="variation_id" class="variation_id" value="0" />

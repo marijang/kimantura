@@ -522,3 +522,27 @@ function action_woocommerce_sidebar( ) {
 // add the action 
 //add_action( 'woocommerce_sidebar', 'action_woocommerce_sidebar', 10, 2 ); 
 
+
+// Add language switcher
+if ( ! function_exists( 'b4b_languages_list' ) ) {
+	function b4b_languages_list(){
+		$languages = icl_get_languages('skip_missing=0&orderby=code');
+		if(!empty($languages)){
+			echo '<div id="language_list"><ul>';
+			foreach($languages as $l){
+				echo '<li>';
+				if($l['country_flag_url']){
+					if(!$l['active']) echo '<a href="'.$l['url'].'">';
+					echo '<img src="'.$l['country_flag_url'].'" height="12" alt="'.$l['language_code'].'" width="18" />';
+					if(!$l['active']) echo '</a>';
+				}
+				if(!$l['active']) echo '<a href="'.$l['url'].'">';
+				echo icl_disp_language($l['native_name'], $l['translated_name']);
+				if(!$l['active']) echo '</a>';
+				echo '</li>';
+			}
+			echo '</ul></div>';
+		}
+	}
+}
+

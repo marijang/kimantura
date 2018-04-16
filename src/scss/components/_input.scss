@@ -1,4 +1,21 @@
-input {
+&:checked + label::before {
+  background-color: $primary-color;
+}
+
+&:checked + label::after {
+  display: block;
+  position: absolute;
+  top: 0.2rem;
+  left: 0.375rem;
+  width: 0.25rem;
+  height: 0.5rem;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  content: '';
+}
+
+input[type="text"] {
   font-size: 18px; /* font-size is up to you, not required */
   padding: 10px;   /* padding is up to you */
   display: block;  /* just to make sure display is block */
@@ -19,3 +36,59 @@ input {
       top: -20px;        /* where the label goes upon interaction */
       font-size: 14px;   /* font-size change on interaction */
       }
+
+.input__number-wrapper{
+  border: 1px solid $color-grey;
+  display: flex;
+  height: 48px;
+  overflow: hidden;
+} 
+.input__number {
+  width: 40px;
+  padding: 0 8px;
+  vertical-align: middle;
+  text-align: center;
+  outline: none;
+  border: none;
+  display: block;
+  line-height: 48px;
+  flex: 1;
+}
+      
+.input__number,
+.input__number-decrement,
+.input__number-increment {
+
+  height: 48px;
+  user-select: none;
+}
+
+.input__number-decrement,
+.input__number-increment {
+  display: block;
+  flex: 1;
+  width: 24px;
+  height: 48px;
+  line-height: 48px;
+  margin-left:8px;
+  margin-right:8px;
+  color: $color-dark-grey;
+  text-align: center;
+  font-weight: bold;
+  cursor: pointer;
+}
+.input__number-decrement:active,
+.input__number-increment:active {
+  background: #ddd;
+}
+
+.input__number-decrement {
+  border-right: none;
+ 
+}
+
+.input__number-increment {
+  border-left: none;
+
+}
+      

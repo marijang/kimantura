@@ -76,9 +76,11 @@
 }
 
 html {
-    font-family: $font-family-sans-serif;
+
+    font-family: $font-family-heading;
     box-sizing: border-box;
     color: #333;
+    
 }
 
   
@@ -152,6 +154,20 @@ $large-screens: (
      
 }
 
+body::before{
+    background: url('img/cipka.png');
+    background-repeat: no-repeat;
+    background-position: 0px 442px; 
+    content: "";
+    position: absolute;
+    top: 0; 
+    left: 0;
+    width: 100%; 
+  
+    opacity: .5; 
+    z-index: -1;
+    height: 1876px;
+}
 
 
 

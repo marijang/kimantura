@@ -1,6 +1,6 @@
 $link-color:                #3DC19E;
 $link-decoration:           none !default;
-$link-hover-color:          darken(#3DC19E,20%);
+$link-hover-color:          darken(#3dc19e,20%);
 $link-hover-decoration:     underline !default;
 
 
@@ -8,6 +8,8 @@ $title-link-color: #262626;
 $title-hover-color: #262626;
 
 $primary-color: #3DC19E;
+$color-grey: #BDBDBD;
+$color-dark-grey: #828282;
 
 
 // Text colors
@@ -20,14 +22,14 @@ $base-link-muted-color: #333;
 $base-link-hover-color: darken(#3DC19E, 10%);
 
 
-$navigation-link-color: #333;
-$navigation-hover-color: red;
+$navigation-link-color:     $base-link-muted-color;
+$navigation-hover-color:    $base-link-color;
 
-$button-primary-color: $navigation-link-color;
-$button-primary-hover-color: #fff;
-$button-primary-border-color: #000;
-$button-primary-background-color: $link-hover-color;
-$button-primary-background-hover-color: #000;
+$button-primary-color:#fff; // $base-link-color;
+$button-primary-hover-color: $base-link-color; //#fff;
+$button-primary-border-color: $base-link-color;
+$button-primary-background-color: #fff;
+$button-primary-background-hover-color:$link-color;
 
 
 // Border
@@ -42,8 +44,8 @@ $dashboard-nav-active-color:$navigation-hover-color;
 $post-title-link-color: #424242;
 $post-title-hover-color: #424242;
 
-$footer-bg-color-primary: #F9F9F9;
-$footer-bg-color-secondary: #F2F2F2;
-$footer-text-color: #424242;
-$footer-link-color: #424242;
-$footer-hover-color: #424242;
+$footer-bg-color-primary: #3A4542;
+$footer-bg-color-secondary: rgba(0,0,0,.25);
+$footer-text-color: #fff;
+$footer-link-color: #fff;
+$footer-hover-color: lighten($footer-link-color,25%);

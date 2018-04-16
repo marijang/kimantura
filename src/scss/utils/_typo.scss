@@ -29,8 +29,19 @@ $typi: (
   p: (
     null: (18px)
   ),
+
+  label:(
+    null:(18px,38px)
+  ),
+
+  xxl: (
+    null: ( 36px,44px)
+  ),
+  large:(
+    null: ( 30px,44px)
+  ),
   small: (
-    null: (16px)
+    null: (16px,23px)
   ),
   xs:(null: (14px))
 );
@@ -39,7 +50,7 @@ $typi: (
 @include typi-init;
 
 html{
-   
+    font-family: $font-family-heading;
     letter-spacing: $font-base-letter-spacing;
     -webkit-font-smoothing: antialiased;
 }
@@ -58,6 +69,7 @@ h1 {
 p { 
     @include typi('p'); 
     margin-top: 0px;
+    font-family: $font-family-paragraph;
     margin-bottom: vr(1);
     letter-spacing: $font-base-letter-spacing;
     -webkit-font-smoothing: antialiased;

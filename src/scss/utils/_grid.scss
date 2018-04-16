@@ -8,6 +8,8 @@ $container-max-widths: (
 $grid-gutter-width:           32px !default;
 $grid-gutter: $grid-gutter-width/2;
 
+$global-margin-space: $grid-gutter;
+
 @mixin container($key:xl) {
   max-width:container-width($key);
   margin: 0 auto;
