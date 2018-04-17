@@ -12,8 +12,7 @@
 ?>
 
 
-
-</div><!-- #page container -->
+<!-- #page container -->
 
 
    <footer>

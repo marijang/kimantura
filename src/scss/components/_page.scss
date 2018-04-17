@@ -5,6 +5,12 @@
 }
 
 @include block('page'){
+    @include element('header'){
+       @include container();
+    }
+    @include element('article'){
+        @include container();
+    }
     @include element('content'){
     
     }

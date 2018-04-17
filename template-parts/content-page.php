@@ -9,9 +9,10 @@
 
 ?>
 
-<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+<article id="post-<?php the_ID(); ?>" <?php post_class('page__article'); ?>>
 	<header class="page__title">
-		<?php the_title( '<h1 class="entry-title1111111">', '</h1>' ); ?>
+		<?php the_title( '<h1 class="page__title">', '</h1>' ); ?>
+		<?php the_subtitle( '<p class="page__description">', '</p>' ); ?>
 	</header><!-- .entry-header -->
     <div class="page__image">
 	    <?php kimnaturav1_post_thumbnail(); ?>

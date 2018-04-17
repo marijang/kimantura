@@ -9,7 +9,7 @@
 
 ?>
 
-<article class="post__item" id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+<article id="post-<?php the_ID(); ?>" <?php post_class('page__article post__item'); ?>>
     
 	<div class="post__info">
 	    <?php

@@ -1,4 +1,11 @@
-.woocommerce{
-   // display: flex;
-   // @include section();
+
+
+
+@include block('woocommerce'){
+    @include element('main'){
+        @include container();
+    }
+    @include element('blog'){
+        @include container();
+    }
 }

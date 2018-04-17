@@ -24,10 +24,9 @@
 </head>
 
 <body <?php body_class('grid'); ?>>
-<div id="page" class="container">
 	<a class="skip-link screen-reader-text" href="#content"><?php esc_html_e( 'Skip to content', 'kimnaturav1' ); ?></a>
 
-	<header class="page-header">
+	<header class="page__header">
 	
 
 		<nav id="site-navigation" class="navigation">

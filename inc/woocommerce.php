@@ -162,8 +162,8 @@ if ( ! function_exists( 'kimnaturav1_woocommerce_wrapper_before' ) ) {
 	 */
 	function kimnaturav1_woocommerce_wrapper_before() {
 		?>
-		<div id="primary" class="content-area">
-			<main id="main" class="site-main" role="main">
+		<div id="primary" class="woocommerce__main">
+			
 			<?php
 	}
 }
@@ -179,7 +179,7 @@ if ( ! function_exists( 'kimnaturav1_woocommerce_wrapper_after' ) ) {
 	 */
 	function kimnaturav1_woocommerce_wrapper_after() {
 			?>
-			</main><!-- #main -->
+			
 		</div><!-- #primary -->
 		<?php
 	}
@@ -299,6 +299,7 @@ if ( ! function_exists( 'b4b_woocommerce_after_main_content' ) ) {
 	 */
 	function b4b_woocommerce_after_main_content() {		
 		$args = array( 'numberposts' => '1' );
+		echo '<div class="woocommerce__blog">';
         echo '<h1 class="page__title">'.__('Last news').'</h1>';
 		global $wpdb,$post;
 		$result = $wpdb->get_results("
@@ -315,7 +316,7 @@ if ( ! function_exists( 'b4b_woocommerce_after_main_content' ) ) {
 		endforeach;
 
 		wp_reset_postdata();	
-
+        echo '</div>';
 
 	}
 }
