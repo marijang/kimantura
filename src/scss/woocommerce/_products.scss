@@ -18,3 +18,23 @@ ul.products{
   
     }
   }
+
+
+
+  @include block('products'){
+      @include element('most-selling'){
+    
+          @include container();
+      }
+      @include element('title'){
+          @include m('center'){
+              text-align: center;
+          }
+      }
+      @include element('slider-wrapper'){
+        //margin: 0px 32px;
+        padding: 16px;
+        //width: 90%;
+        position: relative;
+      }
+  }

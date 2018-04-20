@@ -17,6 +17,18 @@
 //remove_filter( 'the_content', 'wpautop' );
 //add_filter( 'the_content', 'wpautop' , 12);
 
+
+function exclude_category( $query ) {
+    if ( $query->is_home() && $query->is_main_query() ) {
+        $query->set( 'cat', '-35' );
+    }
+}
+add_action( 'pre_get_posts', 'exclude_category' );
+
+function theme_url(){
+	return get_template_directory_uri();
+}
+
 function modify_read_more_link() {
 	return '';
     return '<a class="more-link" href="' . get_permalink() . '">Your Read More Link Text</a>';
@@ -463,6 +475,7 @@ require get_template_directory() . '/inc/template-functions.php';
  */
 require get_template_directory() . '/inc/customizer.php';
 
+
 /**
  * Load Jetpack compatibility file.
  */
@@ -476,6 +489,12 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 if ( class_exists( 'WooCommerce' ) ) {
 	require get_template_directory() . '/inc/woocommerce.php';
 }
+
+
+/**
+ * Homepage
+ */
+require get_template_directory() . '/inc/homepage.php';
 
 
 if ( class_exists( 'Subtitles' ) && method_exists( 'Subtitles', 'subtitle_styling' ) ) {

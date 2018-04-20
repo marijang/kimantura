@@ -1,0 +1,19 @@
+@include block('section'){
+    padding: 64px 0;
+    @include container();
+    @include m('primary'){
+       background: $section-background-color-primary;
+    }
+    @include m('fluid'){
+        max-width: 100%;
+        margin-left: 0px;
+        margin-right: 0px;
+     }
+
+    @include element('title'){
+        //margin-bottom: 0;
+        @include m('center'){
+            text-align: center;
+        }
+    }
+}

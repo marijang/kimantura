@@ -14,7 +14,7 @@
 	<div class="post__info">
 	    <?php
 		    if ( is_singular() ) :
-			   the_title( '<h2>Naslov','</h2>' );
+			   the_title( '<h2>','</h2>' );
 			else :
 				the_title( '<h2 class="post__title"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h2>' );
 			endif;

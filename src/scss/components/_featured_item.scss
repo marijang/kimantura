@@ -4,8 +4,9 @@
     display: block;
     box-sizing: border-box;
     margin: auto;
+    margin: 0px;
     text-align: center;
-    padding: $grid-gutter*3;
+    padding: $grid-gutter*2;
     color:$title-link-color;
     &:hover{
         text-decoration: none;
