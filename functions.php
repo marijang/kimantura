@@ -17,6 +17,15 @@
 //remove_filter( 'the_content', 'wpautop' );
 //add_filter( 'the_content', 'wpautop' , 12);
 
+add_shortcode( 'b4b_image_dir', function( $atts ){
+    return get_template_directory_uri() . '/img/' . $atts['image'];
+});
+
+
+function b4b_get_theme_image($imageName){
+	return get_template_directory_uri() . '/img/' . $imageName;
+}
+
 
 function exclude_category( $query ) {
     if ( $query->is_home() && $query->is_main_query() ) {

@@ -1,6 +1,8 @@
 @include block('section'){
     padding: 64px 0;
+    position: relative;
     @include container();
+
     @include m('primary'){
        background: $section-background-color-primary;
     }

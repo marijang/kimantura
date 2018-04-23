@@ -30,9 +30,11 @@ add_action( 'wp_enqueue_scripts', 'wpb_adding_styles' );
 
 
 function b4b_homepage_adding_js() {
+	wp_enqueue_script( 'kimnaturav1-collapse', get_template_directory_uri() . '/js/application.js', array(), '20151215', true );
     if ( is_page_template( 'homepage.php' ) ){
         //wp_register_script('flexslider', theme_url('plugins/jquery.flexslider-min.js', __FILE__), array('jquery'),'1.1', true);   
-        wp_register_script('owlslider', get_template_directory_uri() .'/plugins/owl.carousel.min.js'); 
+		wp_register_script('owlslider', get_template_directory_uri() .'/plugins/owl.carousel.min.js'); 
+		wp_enqueue_script('productslider2', get_template_directory_uri() . '/plugins/jquery.cycle2.min.js', array(), '20151215', true );
         wp_enqueue_script('productslider', get_template_directory_uri() . '/js/homepage.js', array(), '20151215', true );
         wp_enqueue_script('owlslider');
        

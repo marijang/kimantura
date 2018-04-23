@@ -70,22 +70,58 @@ get_header();
 		$wp_query = null;
 		$wp_query = $blog_query;
 		//print_r($blog_query);
-
+		?>
+		
+		<section class="slider__wrapper">
+		<div id="main_visual_slider" class="slider jt_full_section">
+		<?php
 		if ( $blog_query->have_posts() ) :  
 			//$blog_query->the_post(); 
 		while ( $blog_query->have_posts() ) : $blog_query->the_post();  
-			get_template_part( 'template-parts/content', 'section' );
+			get_template_part( 'template-parts/content', 'slider01' );
 		endwhile; // End of the loop.
 	
 		endif;
 		$wp_query = $temp_query;
 		wp_reset_postdata(); 
-
-
-
-		echo do_shortcode('[mc4wp_form id="4266"]');
 		?>
+		</div>
+		<div class="cycle_controler">
+        <div lang="en" id="main_visual_caption" class="cycle_caption"></div>
 
+        <div id="main_visual_control" class="cycle_control">
+            <div class="cycle_btn cycle_prev">prev</div>
+            <div class="cycle_btn cycle_next">next</div>
+        </div><!-- .cycle_control -->
+    </div><!-- .cycle_controler -->
+</section>
+
+
+<section class="section newsletter" style="background-image:url(<?php echo b4b_get_theme_image('newsletter.png'); ?>);">
+
+  <?php
+  echo '<h1 class="newsletter__title">'.__('Prijavite se na naš newsletter').'</h1>'; 
+  echo do_shortcode('[mc4wp_form id="4266"]');
+  ?>
+</section>
+
+<div class="section section--primary">
+		<div class="c_input form-group">
+		    <label class="c_input__placeholder control-label">Enter your request</label>
+		    <input name="q" class="c_input__input form-control" type="text">
+		    <button class="footer__btn footer__btn-search" type="submit">
+				<svg class="icon-search "><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-search"></use></svg>
+			</button>
+		</div>
+
+
+<div class="scroller">
+	<div class="mouse">
+		<div class="ball"></div>
+	</div>
+</div>
+
+</div>
 
 
 <?php
