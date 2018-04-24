@@ -32,7 +32,7 @@
     }
     @include element('title-subtitle'){
         display: block;
-        @include typi('p'); 
+        @include typi('subtitle'); 
         margin-top: 0px;
         margin-bottom: vr(1);
         font-weight: $font-weight-thin;

@@ -9,6 +9,8 @@
     @include element('description'){
         font-weight: $font-weight-thin;
         margin-bottom: vr(2);
+        @include typi('subtitle'); 
+        
     }
 
 

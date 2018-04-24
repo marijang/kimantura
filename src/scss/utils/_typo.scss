@@ -39,18 +39,32 @@ $breakpoints: (
 $typi: (
   base: (
     null: (18px, 1.4),
- //   tablet: (18px),
-   // desktop: (18px,1.4),
-    //large: (18px,1.4)
+    small: (16px,1.4),
+    large: (20px,1.5)
   ),
   h1: (
     null: (50px)
   ),
   h2: (
+    null: (40px)
+  ),
+  h3: (
+    null: (30px)
+  ),
+  h4: (
+    null: (24px)
+  ),
+  h5: (
     null: (22px)
+  ),
+  h6: (
+    null: (20px)
   ),
   p: (
     null: (18px)
+  ),
+  subtitle: (
+    null:(24px,38px)
   ),
 
   label:(
@@ -68,9 +82,9 @@ $typi: (
   ),
   xs:(null: (14px))
 );
-
-@include typi-create-classes;
 @include typi-init;
+@include typi-create-classes;
+
 
 html{
     font-family: $font-family-heading;
@@ -88,7 +102,21 @@ h1 {
     margin-top: vr(1);
     margin-bottom: vr(1); // 2 baselines    
 }
-
+h2 { 
+  @include typi('h2');   
+}
+h3 { 
+  @include typi('h3');   
+}
+h4 { 
+  @include typi('h4');   
+}
+h5 { 
+  @include typi('h5');   
+}
+h6 { 
+  @include typi('h6');   
+}
 p { 
     @include typi('p'); 
     margin-top: 0px;

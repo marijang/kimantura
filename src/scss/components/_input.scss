@@ -162,7 +162,9 @@ input[type="text"] {
   width: 100%;
   height: auto;
   position: relative;
-  margin-top: 20px
+  margin-top: 20px;
+  background: transparent;
+ 
 }
 
 .c_input:after,.c_input:before {
@@ -185,6 +187,7 @@ input[type="text"] {
 
 .c_input__input {
   display: block;
+  background: transparent;
   width: 100%;
   height: 36px;
   border: none;
@@ -192,7 +195,7 @@ input[type="text"] {
   border-bottom: 2px solid #dedede;
   color: #000;
   padding-bottom: 15px;
-  font-size: 13px;
+  font-size: 18px;
   transition: border-color 0.5s ease
 }
 
@@ -201,9 +204,9 @@ input[type="text"] {
 }
 
 .c_input__placeholder {
-  color: #b3b3b3;
+  color: $color-black;
   font-family: "Helvetica",sans-serif;
-  font-size: 13px;
+  font-size: 18px;
   line-height: 21px;
   position: absolute;
   display: inline;
@@ -246,8 +249,8 @@ input[type="text"] {
 }
 
 .c_input.active .c_input__placeholder {
-  -webkit-transform: translate3d(0, -19px, 0) scale(0.8);
-  transform: translate3d(0, -19px, 0) scale(0.8)
+  -webkit-transform: translate3d(0, -24px, 0) scale(0.8);
+  transform: translate3d(0, -24px, 0) scale(0.8)
 }
 
 .c_input.has-error {

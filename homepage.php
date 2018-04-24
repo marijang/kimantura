@@ -18,16 +18,42 @@ get_header();
 
 
 		<?php
-
+echo '<div class="homeslider__wrapper">
+	   
+	   <div id="main_visual_slider1" class="homeslider jt_full_section" data-cycle-fx="scrollHorz">';
 		while ( have_posts() ) :
 
 			the_post();
 
-			get_template_part( 'template-parts/content', 'homepage' );
+			get_template_part( 'template-parts/content', 'homeslider' );
 
 			
 		endwhile; // End of the loop.
+		while ( have_posts() ) :
 
+			the_post();
+
+			get_template_part( 'template-parts/content', 'homeslider' );
+
+			
+		endwhile; // End of the loop.
+		echo '<div class="cycle-pager homeslider__pager"></div>
+		</div>
+		<div class="cycle_controler" style="display:none;">
+        <div lang="en" id="main_visual_caption11" class="cycle_caption"></div>
+
+        <div id="main_visual_control1" class="cycle_control">
+            <div class="cycle_btn cycle_prev">prev</div>
+            <div class="cycle_btn cycle_next">next</div>
+        </div><!-- .cycle_control -->
+	</div><!-- .cycle_controler -->
+	
+	<div class="scroller">
+	<div class="mouse">
+		<div class="ball"></div>
+	</div>
+</div>
+		</div>';
         // Slider proizvoda
 		do_action('b4b_homepage_section');
 
@@ -100,7 +126,7 @@ get_header();
 <section class="section newsletter" style="background-image:url(<?php echo b4b_get_theme_image('newsletter.png'); ?>);">
 
   <?php
-  echo '<h1 class="newsletter__title">'.__('Prijavite se na naš newsletter').'</h1>'; 
+  echo '<h2 class="newsletter__title">'.__('Prijavite se na naš newsletter').'</h2>'; 
   echo do_shortcode('[mc4wp_form id="4266"]');
   ?>
 </section>
@@ -115,11 +141,7 @@ get_header();
 		</div>
 
 
-<div class="scroller">
-	<div class="mouse">
-		<div class="ball"></div>
-	</div>
-</div>
+
 
 </div>
 

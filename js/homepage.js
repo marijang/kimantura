@@ -33,6 +33,25 @@ jQuery('.products__slider').owlCarousel({
 
 });
 
+function home_slider(){
+    var $slider1 = jQuery('.homeslider');
+    if( !$slider1.length ){ return; }
+    // Run cycle
+$slider1.cycle({
+    slides          : '> div.homeslider__item',
+    timeout         : 5000,
+    speed           : 1000,
+    swipe           : true,
+    log			    : false,
+    prev            : '#main_visual_control1 .cycle_prev',
+    next            : '#main_visual_control1 .cycle_next',
+    pagerActiveClass: 'is-active',
+    pagerTemplate   : '<span></span>'
+
+    //caption         : "#main_visual_caption1",
+    //captionTemplate : "<span class='main_caption_text current'>{{slideNum}}</span><span class='main_caption_text slug'>/</span><span class='main_caption_text total'>{{slideCount}}</span>"
+});
+}
 
 // main visual slider
 function main_visual_slider(){
@@ -104,3 +123,4 @@ jQuery('.main_visual .jt_btn').hover(function(){
 
 
 main_visual_slider();
+home_slider();

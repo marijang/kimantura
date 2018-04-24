@@ -12,6 +12,7 @@ $primary-color: #3DC19E;
 $primary-color-text: #fff;
 $color-grey: #BDBDBD;
 $color-dark-grey: #828282;
+$color-black: #333;
 
 // Section Colors
 
@@ -29,15 +30,16 @@ $base-link-muted-color: #333;
 $base-link-hover-color: darken(#3DC19E, 10%);
 
 
+
 $navigation-link-color:     $base-link-muted-color;
 $navigation-hover-color:    $base-link-color;
 
 $button-primary-color:#fff; // $base-link-color;
 $button-primary-hover-color: $base-link-color; //#fff;
 $button-primary-border-color: $base-link-color;
-$button-primary-background-color: #fff;
-$button-primary-background-hover-color:$link-color;
-
+$button-primary-background-color:$primary-color;
+$button-primary-background-hover-color:$color-white;
+$button-link-primary-color:$primary-color; // $base-link-color;
 
 // Border
 $base-border-color: #E0E0E0;

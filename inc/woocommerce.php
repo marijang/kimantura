@@ -388,29 +388,99 @@ add_action( 'woocommerce_after_checkout_form', 'b4b_woocommerce_after_checkout_f
             global $wp_query;
             $cat_id = $wp_query->get_queried_object_id();
             $cat_desc = term_description( $cat_id, 'product_cat' );
-            $subtit = '<span class="page__description">'.$cat_desc.'</span>';
+            $subtit = '<p class="page__description">'.$cat_desc.'</p>';
             echo $subtit;
         }else{
 			echo '<p class="page__description">'.__('Odaberite kategoriju proizvoda'). '</p>';
 			the_subtitle( '<p class="page__description">', '</p>' );
 		}
 		if( function_exists( 'the_subtitle' ) && function_exists( 'is_shop' ) && is_shop() ) {
-			the_subtitle( '<h2 class="subtitle">', '</h2>' );
+			the_subtitle( '<h2 class="page__description">', '</h2>' );
 		}
 	}
-	
-add_action( 'woocommerce_archive_description', 'b4b_wc_category_description',0,0 );
+// 
+remove_action( 'woocommerce_archive_description', 'woocommerce_taxonomy_archive_description',10 );
+add_action( 'woocommerce_archive_description', 'b4b_wc_category_description', 10, 2  );
 // remove the action 
 //remove_action( 'woocommerce_archive_description', 'action_woocommerce_archive_description', 10, 2 );
 
 
-add_action('woocommerce_archive_description', 'wp176545_add_feature_image');
+function woocommerce_category_image() {
 
-function wp176545_add_feature_image() {
-	echo '<div class="page__image">'.get_the_post_thumbnail( get_option( 'woocommerce_shop_page_id') ) . '</div>';
+
+	//if ( is_post_type_archive( 'product' ) || is_tax( array( 'product_cat', 'product_tag' ) ) ) {
+
+		$attribute_taxonomies = wc_get_attribute_taxonomies();
+
+		foreach ( $attribute_taxonomies as $attribute ) {
+
+
+		}
+
+		$terms = get_terms( 'product_tag' );
+$term_array = array();
+if ( ! empty( $terms ) && ! is_wp_error( $terms ) ){
+    foreach ( $terms as $term ) {
+        $term_array[] = $term->name;
+    }
 }
+print_r($terms);
+
+	//}
+
+    // Old fashion way
+    if ( is_product_category() ){
+	    global $wp_query;
+		$cat = $wp_query->get_queried_object();
+		// Get thumbnail
+	    $thumbnail_id = get_woocommerce_term_meta( $cat->term_id, 'thumbnail_id', true );
+		$image = wp_get_attachment_url( $thumbnail_id );
+		/* no need for thubnail image
+	    if ( $image ) {
+		    echo '<img src="' . $image . '" alt="' . $cat->name . '" />';
+		}
+		*/
+		if (function_exists('get_wp_term_image'))
+		{
+			$meta_image = get_wp_term_image($cat->term_id); 
+			if ($meta_image){
+				echo '<div class="page__image"><img src="' . $meta_image . '" alt="'.$cat->name.'" /></div>';
+			}else{
+			    echo '<div class="page__image">'.get_the_post_thumbnail( get_option( 'woocommerce_shop_page_id') ) . '</div>';
+			}
+		}else{
+			echo '<div class="page__image">'.get_the_post_thumbnail( get_option( 'woocommerce_shop_page_id') ) . '</div>';
+		}
+	}else{
+		global $wp_query; 
+		$category_name = get_query_var( 'product_cat' );//$wp_query->query_vars['product_cat'];
+		$category = explode(',',$category_name);
+//print_r($category);
+		//WooCommerce Products Filter FIX
+		if( isset($category[0]) && $category_name != '') 
+		{
+			$category_object = get_term_by('name', $category[0], 'product_cat');
+			$category_id = $category_object->term_id;
+			if (function_exists('get_wp_term_image'))
+			{
+				$meta_image = get_wp_term_image($category_id); 
+				if ($meta_image){
+					echo '<div class="page__image"><img src="' . $meta_image . '" alt="'.$category_name.'" /></div>';
+				}else{
+					echo '<div class="page__image">'.get_the_post_thumbnail( get_option( 'woocommerce_shop_page_id') ) . '</div>';
+				}
+				
+			}
+		}else{
+			echo '<div class="page__image">'.get_the_post_thumbnail( get_option( 'woocommerce_shop_page_id') ) . '</div>';
+		}
+		
+	}
+}
+add_action( 'woocommerce_archive_description', 'woocommerce_category_image');
 
 
+remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_meta', 40 );
 // Makni  breadcrumb
 remove_action( 'woocommerce_before_main_content','woocommerce_breadcrumb', 20, 0);
 
@@ -465,3 +535,17 @@ add_action('b4b_homepage_section', 'b4b_woocommerce_most_selling_products');
 
 
 
+/**
+ * @snippet       Disable Publicize for Products Jetpack
+ * @how-to        Watch tutorial @ https://businessbloomer.com/?p=19055
+ * @sourcecode    https://businessbloomer.com/?p=21877
+ * @author        Rodolfo Melogli
+ * @credits       Jeremy Herve
+ * @testedwith    WooCommerce 2.6.14
+ */
+ 
+function bbloomer_disable_jetpack_publicize_woocommerce() {
+    remove_post_type_support( 'product', 'publicize' );
+}
+ 
+add_action( 'init', 'bbloomer_disable_jetpack_publicize_woocommerce' );
