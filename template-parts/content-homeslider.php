@@ -25,6 +25,7 @@ $featured_img_url = get_the_post_thumbnail_url(get_the_ID(),'full');
                 the_content();
                 echo '</p>';
                 ?>
+                <a href="<?php the_permalink() ?>" class="btn btn--primary">Saznaj više</a> 
         </div>
    </div>
  

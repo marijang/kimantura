@@ -28,11 +28,13 @@
 		the_content();
 
 		wp_link_pages( array(
-			'before' => '<div class="page-links">' . esc_html__( 'Pages:', 'kimnaturav1' ),
+			'before' => '<div class="page__links">' . esc_html__( 'Pages:', 'kimnaturav1' ),
 			'after'  => '</div>',
 		) );
 		?>
 	</div><!-- .entry-content -->
+
+
 
 	<?php if ( get_edit_post_link() ) : ?>
 		<footer class="entry-footer" style="display:none;">
@@ -57,3 +59,7 @@
 		</footer><!-- .entry-footer -->
 	<?php endif; ?>
 </article><!-- #post-<?php the_ID(); ?> -->
+
+<?php
+  do_action('b4b_single_post_after_content');
+?>

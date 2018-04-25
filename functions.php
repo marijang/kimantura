@@ -16,6 +16,35 @@
 
 //remove_filter( 'the_content', 'wpautop' );
 //add_filter( 'the_content', 'wpautop' , 12);
+require get_template_directory() . '/inc/B4B.php';
+$B4BWP = new B4BWP;
+
+function b4b_adding_js($name,$local='') {
+	$scripts = array();
+    switch($name){
+		case 'carousel' :
+		   $scripts['owl-script']['name'] = 'owl-script';
+		   $scripts['owl-script']['location'] = get_template_directory_uri() .'/plugins/owl.carousel.min.js';
+		   $scripts['owl-script']['version'] = '1.4';
+		   $scripts['owl']['name'] = 'owl-style1';
+		   $scripts['owl']['location'] = get_template_directory_uri() .'/plugins/owl.carousel.min.css';
+		   $scripts['owl']['version'] = '1.55';
+		   $scripts['owl-style2']['name'] = 'owl-style2';
+		   $scripts['owl-style2']['location'] = get_template_directory_uri() .'/plugins/owl.theme.default.css';
+		   $scripts['owl-style2']['version'] = '1.1';   
+		break;
+	}
+	if (isset($local)&&$local!=''){
+		$scripts['page-custom-'.$name]['name'] = 'page-custom-'.$name;
+		$scripts['page-custom-'.$name]['location'] = get_template_directory_uri() .$local;
+		$scripts['page-custom-'.$name]['version'] = '1.4';
+	}
+	return $scripts;
+}
+    
+
+
+
 
 add_shortcode( 'b4b_image_dir', function( $atts ){
     return get_template_directory_uri() . '/img/' . $atts['image'];
@@ -484,6 +513,10 @@ require get_template_directory() . '/inc/template-functions.php';
  */
 require get_template_directory() . '/inc/customizer.php';
 
+require get_template_directory() . '/inc/metabox.php';
+
+
+require get_template_directory() . '/widgets/b4bProductCategoriesFilter.php';
 
 /**
  * Load Jetpack compatibility file.
@@ -573,4 +606,120 @@ if ( ! function_exists( 'b4b_languages_list' ) ) {
 		}
 	}
 }
+
+
+// Add language switcher
+add_action('b4b_single_post_after_content', 'b4b_blog_post_woocommerce_related_products');
+//if ( ! function_exists( 'b4b_blog_post_woocommerce_related_products' ) ) :
+	/**
+	 * Prints HTML with meta information for the current author.
+	 */
+	function b4b_blog_post_woocommerce_related_products() {
+		global $post;
+		$productIDs = get_post_meta($post->ID,'custom_productIds',true);
+		//var_dump($productIDs);
+		//var_dump($post->ID);
+		if ($productIDs == ''){
+			$productIDs = array(0);
+		}
+        $args = array(
+            'post_type' => 'product',
+			'post__in' => $productIDs
+        );
+		$loop = new WP_Query( $args );
+
+		if ( $loop->have_posts() ):
+		?>
+
+		<section class="section section--fluid page__related-products">
+        <div class="products__most-selling">
+		<h2 class="products__title products__title--center"><?php echo  __('Povezani proizvodi')?></h2>
+		<div class="products__slider-wrapper">
+	       <div class="owl-carousel owl-theme products__slider">
+	    <?php
+          while ( $loop->have_posts() ) : $loop->the_post(); 
+			   global $product; 
+		?>
+		<div class="item" style="">
+
+   
+        <a id="id-<?php the_id(); ?>" href="<?php the_permalink(); ?>" title="<?php the_title(); ?>" class="featured-link">
+        <?php 
+        if (has_post_thumbnail( $loop->post->ID )) 
+        echo get_the_post_thumbnail($loop->post->ID, 'shop_catalog',array('class'=>'featured-link__image')); 
+        else echo '<img src="'.woocommerce_placeholder_img_src().'" alt="product placeholder Image" width="65px" height="115px" />'; 
+        ?>
+          <h4 class="featured-link__title"><?php the_title(); ?></h4>
+        </a>
+			
+		</div>
+		<?php endwhile; 
+		endif;
+		
+		?>
+			</div>
+		</div>
+	
+		</div>
+		</section>
+		<?php wp_reset_query(); 
+
+		
+	}
+//endif;
+
+
+	
+
+
+
+// Copyright date
+function b4b_copyright() {
+	global $wpdb;
+	$copyright_dates = $wpdb->get_results("
+	SELECT
+	YEAR(min(post_date_gmt)) AS firstdate,
+	YEAR(max(post_date_gmt)) AS lastdate
+	FROM
+	$wpdb->posts
+	WHERE
+	post_status = 'publish'
+	");
+	$output = '';
+	if($copyright_dates) {
+	$copyright = "© " . $copyright_dates[0]->firstdate;
+	if($copyright_dates[0]->firstdate != $copyright_dates[0]->lastdate) {
+	$copyright .= '-' . $copyright_dates[0]->lastdate;
+	}
+	$output = $copyright;
+	}
+	return $output;
+}
+
+
+// Optimizator
+function wpb_remove_version() {
+	return '';
+}
+add_filter('the_generator', 'wpb_remove_version');
+
+
+function my_enqueue_stuff() {
+	global $B4BWP;
+	if ( is_single() && 'post' == get_post_type() ) {
+		
+	  }
+	//  var_dump( get_post_type());
+	if ( is_page( 'single' ) || is_single()||is_singular('post')) {
+		$B4BWP->setScripts(b4b_adding_js('carousel','/js/blog.js')); 
+	} else {
+	  /** Call regular enqueue */
+
+	  $B4BWP->setScripts(b4b_adding_js('carousel','/js/blog.js')); 
+	}
+  }
+  my_enqueue_stuff();
+ // add_action( 'wp_enqueue_scripts', 'my_enqueue_stuff' );
+$B4BWP->doScripts();
+
 

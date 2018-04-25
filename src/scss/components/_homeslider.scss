@@ -41,11 +41,10 @@
         position: absolute;
         width: 60%;
         height: 400px;
-        left: 64px;
-        top: 64px;
+        left: 32px;
+        top: 32px;
         padding: $grid-gutter*3;
-        background: $primary-color;
-        color: $primary-color-text;
+        color: $color-black;
     }
     @include element('control'){
     

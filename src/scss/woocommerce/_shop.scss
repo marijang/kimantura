@@ -30,4 +30,10 @@
         grid-template-columns: 1fr 1fr 1fr;
         grid-gap: $grid-gutter;
     }
+
+
+
+    @include element('categories-list'){
+        @extend  %accordion;
+    }
 }

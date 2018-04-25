@@ -1,0 +1,121 @@
+export default class extends AbstractModule {
+    constructor(options) {
+        super(options);
+
+        this.$els = $('.js-product-item',this.$el);
+
+
+
+        var timestamp = null;
+        var lastMouseX = null;
+        var lastMouseY = null;
+
+        $window.cursometer({
+            onUpdateSpeed: (speed)=>{
+                this.mouseSpeed = speed;
+            }
+        });
+
+        if (!window.App.iOS && window.innerWidth > 1025 ) {
+            this.$els.on('mouseenter.ProductList', (event)=>this.enter(event));
+            this.$els.on('mouseleave.ProductList', (event)=>this.leave(event));
+        }
+
+    }
+
+    enter(e){
+
+        let x,y,width,height = 0;
+        let el;
+
+        el = $(e.currentTarget);
+        width = el.outerWidth();
+        height = el.outerHeight();
+
+        el.attr('data-way','');
+
+        let offset = el.offset();
+
+        x = parseInt(e.pageX - offset.left) - width/2;
+        y = parseInt(e.pageY - offset.top) - height/2;
+
+        let xDistance, yDistance;
+
+        xDistance = width - Math.abs(x);
+        yDistance = height - Math.abs(y);
+
+        // vertical
+        if(xDistance > yDistance){
+            if(y < 0) {
+                el.attr('data-way','top');
+            }else{
+                el.attr('data-way','bottom');
+            }
+        }
+        // horizontal
+        else{
+            if(x < 0) {
+                el.attr('data-way','left');
+            }else{
+                el.attr('data-way','right');
+            }
+        }
+
+        el.removeClass('is-animated');
+        el.addClass('is-animating');
+    }
+
+    leave(e){
+
+        let x,y,width,height = 0;
+
+        let el;
+
+        el = $(e.currentTarget);
+        if(this.timeout != undefined){
+            clearTimeout(this.timeout);
+        }
+
+        el.removeClass('is-animating');
+        el.addClass('is-animated');
+
+        this.timeout = setTimeout(()=>{
+        },300)
+        // el.addClass('is-leaving');
+
+        width = el.outerWidth();
+        height = el.outerHeight();
+
+        let offset = el.offset();
+
+        x = parseInt(e.pageX - offset.left) - width/2;
+        y = parseInt(e.pageY - offset.top) - height/2;
+
+        let xDistance, yDistance;
+
+        xDistance = width - Math.abs(x);
+        yDistance = height - Math.abs(y);
+
+        // vertical
+        if(xDistance > yDistance){
+            if(y < 0) {
+                el.attr('data-way','top');
+            }else{
+                el.attr('data-way','bottom');
+            }
+        }
+        // horizontal
+        else{
+            if(x < 0) {
+                el.attr('data-way','left');
+            }else{
+                el.attr('data-way','right');
+            }
+        }
+
+    }
+
+    destroy() {
+        this.$els.off('.ProductList')
+    }
+}

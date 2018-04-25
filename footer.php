@@ -63,7 +63,8 @@
 			 <?php
 				/* translators: 1: Theme name, 2: Theme author. */
 				printf( esc_html__( 'Theme: %1$s by %2$s.', 'kimnaturav1' ), 'kimnaturav1', '<a href="http://underscores.me/">Underscores.me</a>' );
-				?>
+                ?>
+                <?php echo b4b_copyright(); ?>
 			 </small>
         </div>
        

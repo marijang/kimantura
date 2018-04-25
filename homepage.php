@@ -20,7 +20,7 @@ get_header();
 		<?php
 echo '<div class="homeslider__wrapper">
 	   
-	   <div id="main_visual_slider1" class="homeslider jt_full_section" data-cycle-fx="scrollHorz">';
+	   <div id="main_visual_slider1" class="homeslider jt_full_section" >';
 		while ( have_posts() ) :
 
 			the_post();

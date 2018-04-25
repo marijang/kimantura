@@ -29,7 +29,7 @@ add_action( 'after_setup_theme', 'kimnaturav1_woocommerce_setup' );
  * @return void
  */
 function kimnaturav1_woocommerce_scripts() {
-	wp_enqueue_style( 'kimnaturav1-woocommerce-style', get_template_directory_uri() . '/woocommerce.css' );
+	//wp_enqueue_style( 'kimnaturav1-woocommerce-style', get_template_directory_uri() . '/woocommerce.css' );
 
 	$font_path   = WC()->plugin_url() . '/assets/fonts/';
 	$inline_font = '@font-face {
@@ -300,7 +300,7 @@ if ( ! function_exists( 'b4b_woocommerce_after_main_content' ) ) {
 	function b4b_woocommerce_after_main_content() {		
 		$args = array( 'numberposts' => '1' );
 		echo '<div class="woocommerce__blog">';
-        echo '<h1 class="page__title">'.__('Last news').'</h1>';
+        echo '<h1 class="page__title">'.__('Posljedne novosti').'</h1>';
 		global $wpdb,$post;
 		$result = $wpdb->get_results("
 			SELECT $wpdb->posts.* 
@@ -484,53 +484,6 @@ remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_singl
 // Makni  breadcrumb
 remove_action( 'woocommerce_before_main_content','woocommerce_breadcrumb', 20, 0);
 
-
-if ( ! function_exists( 'b4b_woocommerce_most_selling_products' ) ) :
-	/**
-	 * Prints HTML with meta information for the current author.
-	 */
-	function b4b_woocommerce_most_selling_products() {
-        $args = array(
-            'post_type' => 'product',
-            'meta_key' => 'total_sales',
-            'orderby' => 'meta_value_num',
-            'posts_per_page' => 6,
-        );
-		$loop = new WP_Query( $args );
-		?>
-		<section class="section section--fluid">
-        <div class="products__most-selling">
-		<h2 class="products__title products__title--center"><?php echo  __('Najprodavaniji proizvodi')?></h2>
-		<div class="products__slider-wrapper">
-	
-	       <div class="owl-carousel owl-theme products__slider">
-	    <?php
-        while ( $loop->have_posts() ) : $loop->the_post(); 
-            global $product; 
-        ?>
-		<div class="item" style="">
-
-   
-        <a id="id-<?php the_id(); ?>" href="<?php the_permalink(); ?>" title="<?php the_title(); ?>" class="featured-link">
-        <?php 
-        if (has_post_thumbnail( $loop->post->ID )) 
-        echo get_the_post_thumbnail($loop->post->ID, 'shop_catalog',array('class'=>'featured-link__image')); 
-        else echo '<img src="'.woocommerce_placeholder_img_src().'" alt="product placeholder Image" width="65px" height="115px" />'; 
-        ?>
-          <h3 class="featured-link__title"><?php the_title(); ?></h3>
-        </a>
-			
-		</div>
-        <?php endwhile; ?>
-			</div>
-		</div>
-	
-		</div>
-		</section>
-        <?php wp_reset_query(); 
-	}
-endif;
-add_action('b4b_homepage_section', 'b4b_woocommerce_most_selling_products');
 
 
 
