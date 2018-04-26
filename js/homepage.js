@@ -11,8 +11,8 @@ jQuery('.products__slider').owlCarousel({
     nav:true,
     dots:true,
     navText: [
-        "<i class='fa fa-caret-left'></i>",
-        "<i class='fa fa-caret-right'></i>"
+        '<i class="mi">&#xE314;</i>',
+        '<i class="mi">&#xE315;</i>'
       ],
       responsive: {
         0: {

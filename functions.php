@@ -56,12 +56,7 @@ function b4b_get_theme_image($imageName){
 }
 
 
-function exclude_category( $query ) {
-    if ( $query->is_home() && $query->is_main_query() ) {
-        $query->set( 'cat', '-35' );
-    }
-}
-add_action( 'pre_get_posts', 'exclude_category' );
+
 
 function theme_url(){
 	return get_template_directory_uri();
@@ -290,40 +285,7 @@ if ( ! function_exists( 'bit4bytes_header_cart' ) ) {
 	}
 }
 
-class Footer_Walker_Nav_Menu extends Walker_Nav_Menu {
-	function start_el ( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
-	  // Copy all the start_el code from source, and modify
-	 
-        $output .= sprintf( "\n<li class=\"footer-nav__item\"><a class=\"footer-nav__link\" href='%s'%s>%s</a></li>\n",
-            $item->url,
-            ( $item->object_id === get_the_ID() ) ? ' class="current"' : '',
-            $item->title
-        );
-    
-	}
-  
-	function end_el( &$output, $item, $depth = 0, $args = array() ) {
-	  // Copy all the end_el code from source, and modify
-	}
-  }
 
-
-class Custom_Walker_Nav_Menu extends Walker_Nav_Menu {
-	function start_el ( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
-	  // Copy all the start_el code from source, and modify
-	 
-        $output .= sprintf( "\n<li class=\"navigation__item\"><a class=\"navigation__link\" href='%s'%s>%s</a></li>\n",
-            $item->url,
-            ( $item->object_id === get_the_ID() ) ? ' class="current"' : '',
-            $item->title
-        );
-    
-	}
-  
-	function end_el( &$output, $item, $depth = 0, $args = array() ) {
-	  // Copy all the end_el code from source, and modify
-	}
-  }
 
   function FOOBAR_get_custom_logo( $blog_id = 0 ) {
     $html = '';
@@ -397,9 +359,10 @@ if ( ! function_exists( 'kimnaturav1_setup' ) ) :
 
 		// This theme uses wp_nav_menu() in one location.
 		register_nav_menus( array(
-			'menu-1' => esc_html__( 'Primary', 'kimnaturav1' ),
-			'footer-1' => esc_html__( 'Footer 1', 'kimnaturav1' ),
-			'footer-2' => esc_html__( 'Footer 2', 'kimnaturav1' ),
+			'menu-1' => esc_html__( 'Primary', 'b4b' ),
+			'footer-1' => esc_html__( 'Footer 1', 'b4b' ),
+			'footer-2' => esc_html__( 'Footer 2', 'b4b' ),
+			'user-navigation' => esc_html__( 'User navigation', 'b4b' ),
 		) );
 
 		/*
@@ -490,9 +453,21 @@ function kimnaturav1_scripts() {
 	if (is_shop()){
 		wp_enqueue_script( 'kimnaturav1-collapse', get_template_directory_uri() . '/js/app.js', array(), '20151215', true );
 	} 
+	// Register Scripts
+	wp_register_script( 'b4b-cookie-notice', get_template_directory_uri() . '/js/cookie-notice.js', array(), '' );
 }
 add_action( 'wp_enqueue_scripts', 'kimnaturav1_scripts' );
 
+
+/**
+ * Blog additions.
+ */
+require get_template_directory() . '/inc/blog.php';
+
+/**
+ * Walkers
+ */
+require get_template_directory() . '/inc/b4b-walkers.php';
 /**
  * Implement the Custom Header feature.
  */
@@ -518,6 +493,8 @@ require get_template_directory() . '/inc/metabox.php';
 
 require get_template_directory() . '/widgets/b4bProductCategoriesFilter.php';
 
+require get_template_directory() . '/inc/shortcodes.php';
+
 /**
  * Load Jetpack compatibility file.
  */
@@ -529,8 +506,15 @@ if ( defined( 'JETPACK__VERSION' ) ) {
  * Load WooCommerce compatibility file.
  */
 if ( class_exists( 'WooCommerce' ) ) {
+	require get_template_directory() . '/inc/payment.php';
 	require get_template_directory() . '/inc/woocommerce.php';
+
 }
+
+/**
+ * Helper/Site/Footer additions.
+ */
+require get_template_directory() . '/inc/helpers.php';
 
 
 /**
@@ -546,16 +530,6 @@ add_filter('subtitle_view_supported', '__return_false');
 
 
 
-function custom_page_template( $page_template ) {
-	//if (is_home()) {
-	  $page_template = plugin_dir_path( __FILE__ ) . 'page-my.php';
-	  return $page_template;
-	//}
-  }
-  //add_filter( 'template_include', 'custom_page_template' );
-  // Remove each style one by one
-
-//add_filter( 'woocommerce_enqueue_styles', '__return_empty_array' );
 
 
 
@@ -574,14 +548,6 @@ function my_custom_sidebar() {
 }
 add_action( 'widgets_init', 'my_custom_sidebar' );
 
-// define the woocommerce_sidebar callback 
-function action_woocommerce_sidebar( ) { 
-	// make action magic happen here... 
-	dynamic_sidebar('woocommerce-shop');
-}; 
-         
-// add the action 
-//add_action( 'woocommerce_sidebar', 'action_woocommerce_sidebar', 10, 2 ); 
 
 
 // Add language switcher
@@ -673,28 +639,7 @@ add_action('b4b_single_post_after_content', 'b4b_blog_post_woocommerce_related_p
 
 
 
-// Copyright date
-function b4b_copyright() {
-	global $wpdb;
-	$copyright_dates = $wpdb->get_results("
-	SELECT
-	YEAR(min(post_date_gmt)) AS firstdate,
-	YEAR(max(post_date_gmt)) AS lastdate
-	FROM
-	$wpdb->posts
-	WHERE
-	post_status = 'publish'
-	");
-	$output = '';
-	if($copyright_dates) {
-	$copyright = "© " . $copyright_dates[0]->firstdate;
-	if($copyright_dates[0]->firstdate != $copyright_dates[0]->lastdate) {
-	$copyright .= '-' . $copyright_dates[0]->lastdate;
-	}
-	$output = $copyright;
-	}
-	return $output;
-}
+
 
 
 // Optimizator
@@ -711,11 +656,11 @@ function my_enqueue_stuff() {
 	  }
 	//  var_dump( get_post_type());
 	if ( is_page( 'single' ) || is_single()||is_singular('post')) {
-		$B4BWP->setScripts(b4b_adding_js('carousel','/js/blog.js')); 
+		//$B4BWP->setScripts(b4b_adding_js('carousel','/js/blog.js')); 
 	} else {
 	  /** Call regular enqueue */
 
-	  $B4BWP->setScripts(b4b_adding_js('carousel','/js/blog.js')); 
+	 //$B4BWP->setScripts(b4b_adding_js('carousel','/js/blog.js')); 
 	}
   }
   my_enqueue_stuff();

@@ -23,7 +23,8 @@
             </figure>
              <p>
              <?php
-                echo get_bloginfo( 'description', 'display' );
+                //echo get_bloginfo( 'description', 'display' );
+                echo get_theme_mod('footer_text');
              ?>
                
              </p>
@@ -43,16 +44,20 @@
            </div>
            <div class="footer__links">
                 <?php
+                if ( has_nav_menu( 'footer-2' ) ) : 
                 wp_nav_menu(array(
                         'theme_location' => 'footer-2',
                         'container' => false,
-                        'menu_id' => 'primary-menu',
+                        'menu_id' => 'footer-2',
                         'menu_class'		=> 'footer-nav',
                         'depth' => 1,
                         // This one is the important part:
                         'walker' => new Footer_Walker_Nav_Menu
                     ));
+                endif;
+                do_action('b4b_social_icons');
                 ?>
+                
               
            </div>
        
@@ -61,14 +66,17 @@
         <div class="footer__info">
              <small>
 			 <?php
-				/* translators: 1: Theme name, 2: Theme author. */
-				printf( esc_html__( 'Theme: %1$s by %2$s.', 'kimnaturav1' ), 'kimnaturav1', '<a href="http://underscores.me/">Underscores.me</a>' );
+                /* translators: 1: Theme name, 2: Theme author. */
+                
+				
                 ?>
-                <?php echo b4b_copyright(); ?>
+
+                <?php  do_action('b4b_copyright'); ?>
 			 </small>
         </div>
        
      </footer>
+     <?php do_action('b4b_cookie_notice')?>
 
 
 

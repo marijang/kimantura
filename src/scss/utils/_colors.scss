@@ -13,7 +13,19 @@ $primary-color-text: #fff;
 $color-grey: #BDBDBD;
 $color-dark-grey: #828282;
 $color-black: #333;
+$color-light-grey: #F9F9F9;
 
+
+// User menu
+$navigation-user-background: $color-light-grey;
+$navigation-user-link-color: $color-black;
+$navigation-user-link-hover-color: $primary-color;
+
+// Page Shop Checkout Navigation
+$page-shop-checkout-navigation-item-background:$color-light-grey;
+$page-shop-checkout-navigation-item-text:$color-black;        
+$page-shop-checkout-navigation-item-background-active:$primary-color;
+$page-shop-checkout-navigation-item-text-active:$color-white;
 // Section Colors
 
 $section-background-color: transparent;

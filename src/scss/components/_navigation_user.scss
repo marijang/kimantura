@@ -1,0 +1,56 @@
+
+@include block('navigation-user'){
+    background:$navigation-user-background;
+    
+    @include element('wrap'){
+        @include container();
+        padding: $grid-gutter*2 0;
+        display: flex;
+        align-items: center;
+        align-content: center;
+
+    }
+    @include element('menu'){
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        display: flex;
+        flex: 1;
+    }
+    @include element('info'){
+        flex:1;
+        text-align: right;
+        @include typi('normal');
+    }
+    @include element('info-name'){
+        font-weight: $font-weight-bold;
+        display: block;
+    }
+    @include element('info-link'){
+        color:$navigation-user-link-color;
+        display: block;
+        font-style: italic;
+        &:hover{
+            color:$navigation-user-link-hover-color;  
+        }
+        &.is-active{
+            text-decoration: underline;
+        }
+    }
+    @include element('menu-item'){
+        @include typi('small');
+        margin-right: $grid-gutter*2;
+    }
+    @include element('menu-link'){
+        color:$navigation-user-link-color;
+        display: block;
+        
+        &:hover{
+            color:$navigation-user-link-hover-color;  
+        }
+        &.is-active{
+            text-decoration: underline;
+        }
+    }
+   
+}

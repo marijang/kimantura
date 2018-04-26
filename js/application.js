@@ -42,3 +42,46 @@ var initializeInputs = function () {
   //init inputs
   initializeInputs();
 
+
+  (function() {
+ 
+    window.inputNumber = function(el) {
+  
+      var min = el.attr('min') || false;
+      var max = el.attr('max') || false;
+  
+      var els = {};
+  
+      els.dec = el.prev();
+      els.inc = el.next();
+  
+      el.each(function(i,item) {
+        //console.log(item);
+        init(jQuery(item));
+      });
+  
+      function init(el) {
+  
+        els.dec.on('click', decrement);
+        els.inc.on('click', increment);
+  
+        function decrement() {
+          var value = el[0].value;
+          value--;
+          if(!min || value >= min) {
+            el[0].value = value;
+          }
+        }
+  
+        function increment() {
+          var value = el[0].value;
+          value++;
+          if(!max || value <= max) {
+            el[0].value = value++;
+          }
+        }
+      }
+    }
+  })();
+  //FontAwesomeConfig = { searchPseudoElements: true };
+  inputNumber(jQuery('.input__number'));

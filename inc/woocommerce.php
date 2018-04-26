@@ -374,11 +374,212 @@ if ( ! function_exists( 'b4b_woocommerce_after_checkout_form' ) ) {
 	 */
 	function b4b_woocommerce_after_checkout_form() {
 		?>
-            </div>
+            
 			<?php
 	}
 }
 add_action( 'woocommerce_after_checkout_form', 'b4b_woocommerce_after_checkout_form', 40 );
+
+
+add_filter('b4b_checkout_step','b4b_test');
+
+function b4b_test($step=1) {
+	$t = '';
+	//$t.='C Step='.$step;
+	if (Is_checkout()&&$step!=1) {
+		$step =  0;
+	}
+
+
+	
+	if (Is_view_order_page()) {
+		$step =  2;
+	}
+	if (Is_order_received_page()) {
+		$step =  3;
+	}
+	if (Is_view_order_page()) {
+		$step =  4;
+	}
+   
+	/*
+	 * Page title
+	 *  
+	$t  .= '<header class="page__title">';
+	$t  .= '<h1 class="page__title">'.get_the_title( ).'</h1>'; 
+	$t  .= '<p class="page__description">'.get_the_subtitle().'</p>';
+	$t  .= '</header>';
+	*/
+    $t.='Step='.$step;
+	$t  .= '<ul class="page__shop-checkout-navigation">';
+	// First item
+	$t  .= '<li class="page__shop-checkout-navigation-item '. ( ($step == 0) ? 'is-active' : '').'" >';
+	$t  .= __('Košarica','b4b');
+	$t  .= '</li>';
+	// Second item
+	$t  .= '<li class="page__shop-checkout-navigation-item '. ( ($step == 1) ? 'is-active' : '').'" >';
+	$t  .= __('Dostava','b4b');
+	$t  .= '</li>';
+	// Third item
+	$t  .= '<li class="page__shop-checkout-navigation-item '. ( ($step == 2) ? 'is-active' : '').'" >';
+	$t  .= __('Način plačanja','b4b');
+	$t  .= '</li>';
+	// Fourth Item
+	$t  .= '<li class="page__shop-checkout-navigation-item is-last '. ( ($step == 3) ? ' is-active' : '').'" >';
+	$t  .= __('Potvrda','b4b');
+	$t  .= '</li>';
+
+
+	$t  .=  "</ul>";
+	$t  .= '<div class="page__content">';  
+	//$t  .= 'Show:'.($step == 0) ? 'is-active' : 'prazno';
+	return $t;
+}
+
+
+function get_title_shipping_method_from_method_id( $method_rate_id = '' ){
+    if( ! empty( $method_rate_id ) ){
+        $method_key_id = str_replace( ':', '_', $method_rate_id ); // Formating
+        $option_name = 'woocommerce_'.$method_key_id.'_settings'; // Get the complete option slug
+        return get_option( $option_name, true )['title']; // Get the title and return it
+    } else {
+        return false;
+    }
+}
+function get_active_shipping_methods() {
+	$shipping_methods = WC()->shipping->get_packages();
+	$active_methods = array();	
+	$shipping_zones = WC_Shipping_Zones::get_zones();
+
+	$shipping_methods2 = WC()->shipping->packages;
+	$shipping_method = WC_Shipping_Zones::get_shipping_method( 1 );
+	var_dump($shipping_method);
+
+	foreach ($shipping_method as $method){
+		var_dump($method);
+	}
+	//var_dump($shipping_methods['rates']);
+	foreach ( $shipping_methods as $id => $shipping_method ) {
+		if ( isset( $shipping_method->enabled ) && 'yes' === $shipping_method->enabled ) {
+			$method_title = $shipping_method->title;
+			if ( 'international_delivery' === $id ) {
+				$method_title .= ' (International)';
+			}
+			array_push( $active_methods, $method_title );
+		}
+	}
+	return $active_methods;
+}
+if ( ! function_exists( 'b4b_woocommerce_before_cart' ) ) {
+	/**
+	 * Before Check out.
+	 *
+	 * Wraps all WooCommerce content in wrappers which match the theme markup.
+	 *
+	 * @return void
+	 */
+	function b4b_woocommerce_before_cart() {
+		echo apply_filters('b4b_checkout_step',0);
+		// Free Shipping
+		//$methods = get_active_shipping_methods();
+		//var_dump($methods);
+		$free_shipping_settings = get_option( 'woocommerce_shipping_settings' );
+	//	var_dump($free_shipping_settings);
+
+	//wc_print_notice('test');
+		$maximum = $free_shipping_settings['min_amount'];
+		$current = WC()->cart->subtotal;
+		echo 'Ukupna cijena:'.$current.' Maksimalna:'.$maximum;
+		if ( $current < $maximum ) {
+			echo '<div class="page__message">Za besplatnu dostavu kupite dodatne proizvode u vrijednosti  ' . ($maximum - $current) . ' kn'
+		  . '<a class="button wc-backward" href="'.get_permalink( wc_get_page_id( 'shop' ) ).'">'.translate( 'Nastavi kupnju', 'woocommerce' ).'</a></div>';
+		}
+			
+	}
+}
+add_action( 'woocommerce_before_cart', 'b4b_woocommerce_before_cart', 0 );
+if ( ! function_exists( 'woocommerce_before_checkout_form' ) ) {
+	/**
+	 * Before Check out.
+	 *
+	 * Wraps all WooCommerce content in wrappers which match the theme markup.
+	 *
+	 * @return void
+	 */
+	function woocommerce_before_checkout_form() {
+		echo apply_filters('b4b_checkout_step',1);	
+	
+	}
+}
+add_action( 'woocommerce_before_checkout_form', 'woocommerce_before_checkout_form', 0 );
+
+
+if ( ! function_exists( 'b4b_checkout_before' ) ) {
+	/**
+	 * Before Check out.
+	 *
+	 * Wraps all WooCommerce content in wrappers which match the theme markup.
+	 *
+	 * @return void
+	 */
+	function b4b_checkout_before() {
+		?>
+		<div class="navigation-user">
+        <div class="navigation-user__wrap">
+	    <?php
+		if ( is_user_logged_in() ) {
+			$current_user = wp_get_current_user();
+			wp_nav_menu(array(
+				'theme_location' => 'user-navigation',
+				'container'      => false,
+				'menu_id'        => 'navigation-user',
+				'menu_class'     => 'navigation-user__menu',
+				'depth' => 1,
+				// This one is the important part:
+				'walker' => new user_Walker_Nav_Menu
+			  ));
+	    ?>
+		<div class="navigation-user__info">
+		   <span class="navigation-user__info-name"> <?php echo $current_user->user_email?></span>
+		   <a href="<?php echo wp_logout_url()?>" class="navigation-user__info-link" ><?php echo __('Odjavite se','b4b') ?></a>
+		</div>
+		
+		<?php
+		} else {
+		?>
+			<div class="page__user-profile">
+				Niste logirani
+			</div>
+		<?php
+		}
+		?>
+		</div>
+		</div>
+		<?php
+		echo apply_filters('b4b_checkout_step',0);
+	}
+}
+add_action( 'b4b_checkout_before', 'b4b_checkout_before', 0 );
+
+if ( ! function_exists( 'b4b_woocommerce_after_checkout' ) ) {
+	/**
+	 * Before Check out.
+	 *
+	 * Wraps all WooCommerce content in wrappers which match the theme markup.
+	 *
+	 * @return void
+	 */
+	function b4b_woocommerce_after_checkout() {
+		echo '</div>';
+	}
+}
+add_action( 'woocommerce_after_cart', 'b4b_woocommerce_after_checkout', 0 );
+add_action( 'woocommerce_after_checkout_form', 'b4b_woocommerce_after_checkout', 0 );
+
+
+
+
+
 
 
 
@@ -485,7 +686,42 @@ remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_singl
 remove_action( 'woocommerce_before_main_content','woocommerce_breadcrumb', 20, 0);
 
 
+/* WooCommerce, Cart Item Image */
+function b4b_woocommerce_cart_item_thumbnail($product_get_image,  $cart_item="",  $cart_item_key="" ){
+	return $product_get_image; 
+}
 
+add_action('woocommerce_cart_item_thumbnail','b4b_woocommerce_cart_item_thumbnail',10,3);
+
+
+/* WooCommerce, Cart Item text */
+function b4b_woocommerce_cart_item_name($product_name, $cart_item="", $cart_item_key=""){
+	//var_dump($cart_item);
+	$product_id = $cart_item['product_id'];
+	// WC_Product
+	$product =  wc_get_product($cart_item['data']->get_id());
+
+	$sales_price = get_post_meta($product_id , '_sale_price', true);
+	$regular_price = get_post_meta($product_id , '_regular_price', true);
+	//$excerpt = get_post_meta($product_id , '_short_description', true);
+	$excerpt = $product->get_short_description();
+	$terms = get_the_terms( $product_id, 'product_tag' );
+	$termsa = array();
+	if ( ! empty( $terms ) && ! is_wp_error( $terms ) ){
+		foreach ( $terms as $term ) {
+			$tersma[] = $term->slug;
+		}
+	}
+	return 
+		 '<div class="cart__short-description">'
+		. $product_name
+		. '</div>'
+		. '<div class="cart__short-description">'
+		. $excerpt
+		. '</div>'; 
+}
+
+add_action('woocommerce_cart_item_name','b4b_woocommerce_cart_item_name',10,3);
 
 
 /**

@@ -26,3 +26,5 @@ jQuery('.products__slider').owlCarousel({
       autoplayHoverPause: true,
 })
 });
+
+
