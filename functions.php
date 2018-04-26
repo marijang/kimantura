@@ -442,7 +442,7 @@ function kimnaturav1_scripts() {
 	wp_enqueue_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js', array(), null, true);
 	wp_enqueue_style( 'kimnaturav1-style', get_stylesheet_uri() );
 
-	wp_enqueue_script( 'kimnaturav1-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '20151215', true );
+//	wp_enqueue_script( 'kimnaturav1-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '20151215', true );
 
 	wp_enqueue_script( 'kimnaturav1-skip-link-focus-fix', get_template_directory_uri() . '/js/skip-link-focus-fix.js', array(), '20151215', true );
 
@@ -455,6 +455,12 @@ function kimnaturav1_scripts() {
 	} 
 	// Register Scripts
 	wp_register_script( 'b4b-cookie-notice', get_template_directory_uri() . '/js/cookie-notice.js', array(), '' );
+
+	// Register materialzecss
+	
+	//wp_enqueue_script( 'materialize-css', get_template_directory_uri() . 'css/materialize.min.css', array(), '20151215');
+	wp_enqueue_script( 'materialize-js', get_template_directory_uri() .  '/plugins/materialize.min.js', array(), '20151215');
+	
 }
 add_action( 'wp_enqueue_scripts', 'kimnaturav1_scripts' );
 

@@ -17,9 +17,9 @@
  */
 function kimnaturav1_woocommerce_setup() {
 	add_theme_support( 'woocommerce' );
-	add_theme_support( 'wc-product-gallery-zoom' );
-	add_theme_support( 'wc-product-gallery-lightbox' );
-	add_theme_support( 'wc-product-gallery-slider' );
+//	add_theme_support( 'wc-product-gallery-zoom' );
+//	add_theme_support( 'wc-product-gallery-lightbox' );
+//	add_theme_support( 'wc-product-gallery-slider' );
 }
 add_action( 'after_setup_theme', 'kimnaturav1_woocommerce_setup' );
 
@@ -380,16 +380,48 @@ if ( ! function_exists( 'b4b_woocommerce_after_checkout_form' ) ) {
 }
 add_action( 'woocommerce_after_checkout_form', 'b4b_woocommerce_after_checkout_form', 40 );
 
+if ( ! function_exists( 'b4b_is_billing' ) ) {
+
+    /**
+     * Is_checkout_pay - Returns true when viewing the checkout's pay page.
+     *
+     * @return bool
+     */
+    function b4b_is_billing() {
+        global $wp;
+
+        return is_checkout() && ! empty( $wp->query_vars['order-pay'] );
+    }
+}
 
 add_filter('b4b_checkout_step','b4b_test');
 
 function b4b_test($step=1) {
 	$t = '';
 	//$t.='C Step='.$step;
-	if (Is_checkout()&&$step!=1) {
+	if (is_cart()) {
 		$step =  0;
 	}
+	if (Is_checkout()) {
+		$step =  1;
+	}
+	if (is_wc_endpoint_url( 'order-pay' )) {
+		$t .="order-pay";
+	}
+	if (is_wc_endpoint_url( 'order-received' )) {
+		$t .="order-received";
+	}
 
+
+	if (is_account_page()) {
+		$t .="acount_page";
+	}
+	if (is_cart()) {
+		$t .="Cart";
+	}
+   //var_dump($_POST);
+	
+	//is_order_received_page
 
 	
 	if (Is_view_order_page()) {
@@ -425,13 +457,14 @@ function b4b_test($step=1) {
 	$t  .= __('Način plačanja','b4b');
 	$t  .= '</li>';
 	// Fourth Item
-	$t  .= '<li class="page__shop-checkout-navigation-item is-last '. ( ($step == 3) ? ' is-active' : '').'" >';
+	$t  .= '<li class="page__shop-checkout-navigation-item is-last 
+	'. ( ($step == 3) ? ' is-active' : '').'" >';
 	$t  .= __('Potvrda','b4b');
 	$t  .= '</li>';
 
 
 	$t  .=  "</ul>";
-	$t  .= '<div class="page__content">';  
+	//$t  .= '<div class="page__content">';  
 	//$t  .= 'Show:'.($step == 0) ? 'is-active' : 'prazno';
 	return $t;
 }
@@ -497,7 +530,7 @@ if ( ! function_exists( 'b4b_woocommerce_before_cart' ) ) {
 			
 	}
 }
-add_action( 'woocommerce_before_cart', 'b4b_woocommerce_before_cart', 0 );
+//add_action( 'woocommerce_before_cart', 'b4b_woocommerce_before_cart', 0 );
 if ( ! function_exists( 'woocommerce_before_checkout_form' ) ) {
 	/**
 	 * Before Check out.
@@ -511,7 +544,7 @@ if ( ! function_exists( 'woocommerce_before_checkout_form' ) ) {
 	
 	}
 }
-add_action( 'woocommerce_before_checkout_form', 'woocommerce_before_checkout_form', 0 );
+//add_action( 'woocommerce_before_checkout_form', 'woocommerce_before_checkout_form', 0 );
 
 
 if ( ! function_exists( 'b4b_checkout_before' ) ) {
@@ -529,6 +562,7 @@ if ( ! function_exists( 'b4b_checkout_before' ) ) {
 	    <?php
 		if ( is_user_logged_in() ) {
 			$current_user = wp_get_current_user();
+			if ( has_nav_menu( 'user-navigation' ) ) : 
 			wp_nav_menu(array(
 				'theme_location' => 'user-navigation',
 				'container'      => false,
@@ -538,6 +572,9 @@ if ( ! function_exists( 'b4b_checkout_before' ) ) {
 				// This one is the important part:
 				'walker' => new user_Walker_Nav_Menu
 			  ));
+			else: 
+				'Nedostaje menu user-navigation';
+			endif;
 	    ?>
 		<div class="navigation-user__info">
 		   <span class="navigation-user__info-name"> <?php echo $current_user->user_email?></span>
@@ -555,8 +592,13 @@ if ( ! function_exists( 'b4b_checkout_before' ) ) {
 		?>
 		</div>
 		</div>
+		<div class="section">
 		<?php
 		echo apply_filters('b4b_checkout_step',0);
+		?>
+		</div>
+		<?php
+
 	}
 }
 add_action( 'b4b_checkout_before', 'b4b_checkout_before', 0 );
@@ -713,12 +755,12 @@ function b4b_woocommerce_cart_item_name($product_name, $cart_item="", $cart_item
 		}
 	}
 	return 
-		 '<div class="cart__short-description">'
+		 '<div class="cart__item-name">'
 		. $product_name
 		. '</div>'
-		. '<div class="cart__short-description">'
+		. '<p class="cart__item-desc">'
 		. $excerpt
-		. '</div>'; 
+		. '</p>'; 
 }
 
 add_action('woocommerce_cart_item_name','b4b_woocommerce_cart_item_name',10,3);

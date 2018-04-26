@@ -1,3 +1,10 @@
+
+
+
+
+
+
+
 /*
 &:checked + label::before {
   background-color: $primary-color;
@@ -15,15 +22,16 @@
   transform: rotate(45deg);
   content: '';
 }
-*/
 
-input[type="text"] {
+
+   */
+input1[type="text"] {
   font-size: 18px; /* font-size is up to you, not required */
   padding: 10px;   /* padding is up to you */
   display: block;  /* just to make sure display is block */
   width: 100%;     /* width is up to you */
   }
-  label {
+  label1 {
     font-size: 18px;      /* up to you, I matched the <input> style */
     font-weight: normal;  /* up to you, not required */
     left: 10px;           /* determines space to left of label */
@@ -34,11 +42,11 @@ input[type="text"] {
     -webkit-transition:0.2s ease all;
     }
 
-    input:focus ~ label, input:valid ~ label {
+    input1:focus ~ label1, input1:valid ~ label {
       top: -20px;        /* where the label goes upon interaction */
       font-size: 14px;   /* font-size change on interaction */
       }
-
+   
 .input__number-wrapper{
   border: 1px solid $color-grey;
   display: flex;

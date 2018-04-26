@@ -84,4 +84,15 @@ var initializeInputs = function () {
     }
   })();
   //FontAwesomeConfig = { searchPseudoElements: true };
-  inputNumber(jQuery('.input__number'));
+  //inputNumber(jQuery('.input__number'));
+
+  jQuery(document).ready(function(){
+    jQuery('img').materialbox();
+    jQuery('select').formSelect();
+    jQuery('input[type="checkbox"]').addClass("filled-in");
+    jQuery('input[type="radio"]').addClass("with-gap");
+    jQuery('.collapsible').collapsible();
+    jQuery('.carousel').carousel();
+    
+  });
+        

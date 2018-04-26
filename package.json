@@ -13,7 +13,7 @@
   "license": "ISC",
   "devDependencies": {
     "bourbon": "^5.0.0",
-    "browser-sync": "^2.17.5",
+    "browser-sync": "^2.23.7",
     "del": "^2.2.2",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.1",
@@ -23,9 +23,9 @@
     "gulp-html-replace": "^1.6.1",
     "gulp-htmlmin": "^3.0.0",
     "gulp-imagemin": "^3.0.3",
-    "gulp-sass": "^3.1.0",
+    "gulp-sass": "^2.3.2",
     "gulp-sass-bulk-import": "^1.0.1",
-    "gulp-sass-glob": "^1.0.8",
+    "gulp-sass-glob": "^1.0.9",
     "gulp-sourcemaps": "^2.1.1",
     "gulp-uglify": "^2.0.0",
     "gutenberg-web-type": "^1.2.3",
@@ -36,5 +36,6 @@
     "shevy": "^2.1.0",
     "susy": "^3.0.3",
     "typi": "^3.1.2"
-  }
+  },
+  "dependencies": {}
 }
