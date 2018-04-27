@@ -23,6 +23,17 @@ function kimnaturav1_woocommerce_setup() {
 }
 add_action( 'after_setup_theme', 'kimnaturav1_woocommerce_setup' );
 
+// Filters first
+
+
+add_filter('woocommerce_add_error', 'b4b_wc_add_to_cart_message', 10, 2);
+add_filter('woocommerce_add_notice', 'b4b_wc_add_to_cart_message', 10, 1);
+add_filter('woocommerce_add_success', 'b4b_wc_add_to_cart_message', 10, 2);
+function b4b_wc_add_to_cart_message( $message ) {
+    return  $message.':test:';
+}
+
+
 /**
  * WooCommerce specific scripts & stylesheets.
  *
@@ -417,7 +428,7 @@ function b4b_test($step=1) {
 		$t .="acount_page";
 	}
 	if (is_cart()) {
-		$t .="Cart";
+		//$t .="Cart";
 	}
    //var_dump($_POST);
 	
@@ -442,11 +453,16 @@ function b4b_test($step=1) {
 	$t  .= '<p class="page__description">'.get_the_subtitle().'</p>';
 	$t  .= '</header>';
 	*/
-    $t.='Step='.$step;
+    //$t.='Step='.$step;
 	$t  .= '<ul class="page__shop-checkout-navigation">';
 	// First item
 	$t  .= '<li class="page__shop-checkout-navigation-item '. ( ($step == 0) ? 'is-active' : '').'" >';
 	$t  .= __('Košarica','b4b');
+	if ($step>0){
+		$t .= '<a href="'.get_permalink( wc_get_page_id( 'cart' )).'">'.__('Košarica','b4b').'</a>';
+	}else{
+		$t .= '<a href="'.get_permalink( wc_get_page_id( 'cart' )).'">'.__('Košarica','b4b').'</a>';
+	}
 	$t  .= '</li>';
 	// Second item
 	$t  .= '<li class="page__shop-checkout-navigation-item '. ( ($step == 1) ? 'is-active' : '').'" >';
@@ -479,30 +495,61 @@ function get_title_shipping_method_from_method_id( $method_rate_id = '' ){
         return false;
     }
 }
-function get_active_shipping_methods() {
-	$shipping_methods = WC()->shipping->get_packages();
-	$active_methods = array();	
-	$shipping_zones = WC_Shipping_Zones::get_zones();
 
-	$shipping_methods2 = WC()->shipping->packages;
-	$shipping_method = WC_Shipping_Zones::get_shipping_method( 1 );
-	var_dump($shipping_method);
-
-	foreach ($shipping_method as $method){
-		var_dump($method);
+/**
+ * Show a message at the cart/checkout displaying
+ * how much to go for free shipping.
+ */
+function b4b_shipping_methods_notice() {
+	if ( ! is_cart() && ! is_checkout() ) { // Remove partial if you don't want to show it on cart/checkout
+		return;
 	}
-	//var_dump($shipping_methods['rates']);
-	foreach ( $shipping_methods as $id => $shipping_method ) {
-		if ( isset( $shipping_method->enabled ) && 'yes' === $shipping_method->enabled ) {
-			$method_title = $shipping_method->title;
-			if ( 'international_delivery' === $id ) {
-				$method_title .= ' (International)';
-			}
-			array_push( $active_methods, $method_title );
+	$packages = WC()->cart->get_shipping_packages();
+	$package = reset( $packages );
+	$zone = wc_get_shipping_zone( $package );
+	$cart_total = WC()->cart->get_displayed_subtotal();
+	if ( WC()->cart->display_prices_including_tax() ) {
+		$cart_total = round( $cart_total - ( WC()->cart->get_discount_total() + WC()->cart->get_discount_tax() ), wc_get_price_decimals() );
+	} else {
+		$cart_total = round( $cart_total - WC()->cart->get_discount_total(), wc_get_price_decimals() );
+	}
+    // Calculate price if zone is selected
+	foreach ( $zone->get_shipping_methods( true ) as $k => $method ) {
+		$min_amount = $method->get_option( 'min_amount' );
+		if ( $method->id == 'free_shipping' && ! empty( $min_amount ) && $cart_total < $min_amount ) {
+			$remaining = $min_amount - $cart_total;
+			wc_add_notice( sprintf( 'Add %s more to get free shipping!', wc_price( $remaining ) ) );
 		}
 	}
-	return $active_methods;
+	// Show info if price is not calculated just for info
+	if (!isset($remaining)){
+		$delivery_zones = WC_Shipping_Zones::get_zones();
+		foreach ((array) $delivery_zones as $key => $the_zone ) {
+		    //echo $the_zone['zone_name'];
+			foreach ($the_zone['shipping_methods'] as $method) {
+				if ($method->is_enabled()){
+					$min_amount = $method->get_option( 'min_amount' );
+					// Free shipping method rules
+					if ( $method->id == 'free_shipping'){
+						// Cart total less then min_amount
+						if (! empty( $min_amount ) && $cart_total < $min_amount ) {
+							$remaining = $min_amount - $cart_total;
+							wc_add_notice( sprintf( 'If you add %s more to get free shipping!', wc_price( $remaining ) ) );
+						}
+					}
+				}
+				//echo $value->id;
+				//echo $value->get_title();
+				// var_dump($value);
+			}
+		}
+	}
+
+
 }
+
+
+
 if ( ! function_exists( 'b4b_woocommerce_before_cart' ) ) {
 	/**
 	 * Before Check out.
@@ -512,25 +559,14 @@ if ( ! function_exists( 'b4b_woocommerce_before_cart' ) ) {
 	 * @return void
 	 */
 	function b4b_woocommerce_before_cart() {
-		echo apply_filters('b4b_checkout_step',0);
-		// Free Shipping
-		//$methods = get_active_shipping_methods();
-		//var_dump($methods);
-		$free_shipping_settings = get_option( 'woocommerce_shipping_settings' );
-	//	var_dump($free_shipping_settings);
+		//echo apply_filters('b4b_checkout_step',0);
 
-	//wc_print_notice('test');
-		$maximum = $free_shipping_settings['min_amount'];
-		$current = WC()->cart->subtotal;
-		echo 'Ukupna cijena:'.$current.' Maksimalna:'.$maximum;
-		if ( $current < $maximum ) {
-			echo '<div class="page__message">Za besplatnu dostavu kupite dodatne proizvode u vrijednosti  ' . ($maximum - $current) . ' kn'
-		  . '<a class="button wc-backward" href="'.get_permalink( wc_get_page_id( 'shop' ) ).'">'.translate( 'Nastavi kupnju', 'woocommerce' ).'</a></div>';
-		}
+		b4b_shipping_methods_notice() ;
+
 			
 	}
 }
-//add_action( 'woocommerce_before_cart', 'b4b_woocommerce_before_cart', 0 );
+add_action( 'woocommerce_before_cart', 'b4b_woocommerce_before_cart', 0 );
 if ( ! function_exists( 'woocommerce_before_checkout_form' ) ) {
 	/**
 	 * Before Check out.
@@ -556,52 +592,17 @@ if ( ! function_exists( 'b4b_checkout_before' ) ) {
 	 * @return void
 	 */
 	function b4b_checkout_before() {
-		?>
-		<div class="navigation-user">
-        <div class="navigation-user__wrap">
-	    <?php
-		if ( is_user_logged_in() ) {
-			$current_user = wp_get_current_user();
-			if ( has_nav_menu( 'user-navigation' ) ) : 
-			wp_nav_menu(array(
-				'theme_location' => 'user-navigation',
-				'container'      => false,
-				'menu_id'        => 'navigation-user',
-				'menu_class'     => 'navigation-user__menu',
-				'depth' => 1,
-				// This one is the important part:
-				'walker' => new user_Walker_Nav_Menu
-			  ));
-			else: 
-				'Nedostaje menu user-navigation';
-			endif;
-	    ?>
-		<div class="navigation-user__info">
-		   <span class="navigation-user__info-name"> <?php echo $current_user->user_email?></span>
-		   <a href="<?php echo wp_logout_url()?>" class="navigation-user__info-link" ><?php echo __('Odjavite se','b4b') ?></a>
-		</div>
-		
-		<?php
-		} else {
-		?>
-			<div class="page__user-profile">
-				Niste logirani
-			</div>
-		<?php
-		}
-		?>
-		</div>
-		</div>
-		<div class="section">
-		<?php
+		b4b_user_navigation();
 		echo apply_filters('b4b_checkout_step',0);
 		?>
-		</div>
 		<?php
-
 	}
 }
 add_action( 'b4b_checkout_before', 'b4b_checkout_before', 0 );
+
+
+add_action( 'b4b_woocommerce_account_navigation', 'b4b_checkout_before', 0 );
+
 
 if ( ! function_exists( 'b4b_woocommerce_after_checkout' ) ) {
 	/**

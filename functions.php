@@ -468,6 +468,11 @@ add_action( 'wp_enqueue_scripts', 'kimnaturav1_scripts' );
 /**
  * Blog additions.
  */
+require get_template_directory() . '/inc/account.php';
+
+/**
+ * Blog additions.
+ */
 require get_template_directory() . '/inc/blog.php';
 
 /**

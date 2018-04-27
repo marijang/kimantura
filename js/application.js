@@ -93,6 +93,7 @@ var initializeInputs = function () {
     jQuery('input[type="radio"]').addClass("with-gap");
     jQuery('.collapsible').collapsible();
     jQuery('.carousel').carousel();
-    
+    jQuery('.modal').modal();
+    jQuery('.modal-trigger').modal();
   });
         

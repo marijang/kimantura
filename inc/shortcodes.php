@@ -6,7 +6,7 @@
  */
 
 
-add_action( 'wp_enqueue_scripts', 'mgms_enqueue_assets' );
+//add_action( 'wp_enqueue_scripts', 'mgms_enqueue_assets' );
 function mgms_enqueue_assets() {
     wp_enqueue_script( 
         'google-maps-geo', 
@@ -27,7 +27,7 @@ function mgms_enqueue_assets() {
 }
 
 //Google Maps Shortcode
-add_shortcode( 'b4b-map', 'b4b_gmaps' );
+//add_shortcode( 'b4b-map', 'b4b_gmaps' );
 function b4b_gmaps( $args ) {
 	$args = shortcode_atts( array(
 		'lat'    => '48.856259',
