@@ -25,6 +25,42 @@ add_action( 'after_setup_theme', 'kimnaturav1_woocommerce_setup' );
 
 // Filters first
 
+add_filter('b4b_product_variations','b4b_product_variations',10,3);
+function b4b_product_variations($product, $before='', $after='', $append=array()){
+	$string = 'b4b_product_variations';
+	//var_dump($product);
+	if ($product->is_type( 'variable' )) 
+	{
+		$available_variations = $product->get_available_variations();	
+		$attributes =  $product->get_variation_attributes() ;
+		if ( $attributes [ 'Pakovanje' ] ) {
+			$string .='<div class="product__variations">';
+			foreach ($attributes [ 'Pakovanje' ] as $variation){
+				$string .='<span>'.$variation.'<span>';
+			   }
+			   $string .='<div>';
+		}
+	}
+	return $string;
+}
+add_filter('b4b_product_attributes1','b4b_product_variations1',10,3);
+function b4b_product_variations1($product, $before='', $after='', $append=array()){
+	$string = 'b4b_product_variations';
+	//var_dump($product);
+	if ($product->is_type( 'variable' )) 
+	{
+		$available_variations = $product->get_available_variations();	
+		$attributes =  $product->get_variation_attributes() ;
+		if ( $attributes [ 'Pakovanje' ] ) {
+			$string .='<div class="product__variations">';
+			foreach ($attributes [ 'Pakovanje' ] as $variation){
+				$string .='<span>'.$variation.'<span>';
+			   }
+			   $string .='<div>';
+		}
+	}
+	return $string;
+}
 
 add_filter('woocommerce_add_error', 'b4b_wc_add_to_cart_message', 10, 2);
 add_filter('woocommerce_add_notice', 'b4b_wc_add_to_cart_message', 10, 1);
@@ -737,34 +773,44 @@ function b4b_woocommerce_cart_item_thumbnail($product_get_image,  $cart_item="",
 add_action('woocommerce_cart_item_thumbnail','b4b_woocommerce_cart_item_thumbnail',10,3);
 
 
-/* WooCommerce, Cart Item text */
+
+/**
+ * WooCommerce, Cart Item text
+ * 
+ * Show Product title
+ * 
+ */
 function b4b_woocommerce_cart_item_name($product_name, $cart_item="", $cart_item_key=""){
-	//var_dump($cart_item);
 	$product_id = $cart_item['product_id'];
 	// WC_Product
 	$product =  wc_get_product($cart_item['data']->get_id());
-
 	$sales_price = get_post_meta($product_id , '_sale_price', true);
 	$regular_price = get_post_meta($product_id , '_regular_price', true);
-	//$excerpt = get_post_meta($product_id , '_short_description', true);
 	$excerpt = $product->get_short_description();
-	$terms = get_the_terms( $product_id, 'product_tag' );
+	//$terms = get_the_terms( $product_id, 'product_tag' );
 	$termsa = array();
 	if ( ! empty( $terms ) && ! is_wp_error( $terms ) ){
 		foreach ( $terms as $term ) {
 			$tersma[] = $term->slug;
 		}
 	}
+	$attribute =  $product->get_attribute('pakovanje');
 	return 
 		 '<div class="cart__item-name">'
-		. $product_name
+		. $product->get_title()
 		. '</div>'
 		. '<p class="cart__item-desc">'
 		. $excerpt
-		. '</p>'; 
+		. '</p>'
+		. '<div class="cart__item-attribute">'
+		. $attribute
+		. '</div>';
 }
+add_filter('woocommerce_cart_item_name','b4b_woocommerce_cart_item_name',10,3);
 
-add_action('woocommerce_cart_item_name','b4b_woocommerce_cart_item_name',10,3);
+
+
+
 
 
 /**

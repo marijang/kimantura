@@ -88,7 +88,7 @@ get_header();
 					if ($product->is_type( 'variable' )) 
 {
 	$available_variations = $product->get_available_variations();
-	//print_r($available_variations);
+	print_r($available_variations);
 
 	$attributes =  $product->get_variation_attributes() ;
 

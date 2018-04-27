@@ -1,11 +1,16 @@
 <?php
 class user_Walker_Nav_Menu extends Walker_Nav_Menu {
 	function start_el ( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
-	  // Copy all the start_el code from source, and modify
-	 
-        $output .= sprintf( "\n<li class=\"navigation-user__menu-item\"><a class=\"navigation-user__menu-link\" href='%s'%s>%s</a></li>\n",
+    // Copy all the start_el code from source, and modify
+        $is_current_item = '';
+        if(array_search('current-menu-item', $item->classes) != 0)
+        {
+            $is_current_item = ' is-active"';
+        }
+        $output .= sprintf( "\n<li class=\"navigation-user__menu-item\"><a class=\"navigation-user__menu-link %s \" href='%s'>%s</a></li>\n",
+            
+            $is_current_item,
             $item->url,
-            ( $item->object_id === get_the_ID() ) ? ' class="is-active"' : '',
             $item->title
         );
     
@@ -37,10 +42,15 @@ class user_Walker_Nav_Menu extends Walker_Nav_Menu {
   class Custom_Walker_Nav_Menu extends Walker_Nav_Menu {
     function start_el ( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
       // Copy all the start_el code from source, and modify
-     
-          $output .= sprintf( "\n<li class=\"navigation__item\"><a class=\"navigation__link\" href='%s'%s>%s</a></li>\n",
+          $is_current_item = '';
+          if(array_search('current-menu-item', $item->classes) != 0)
+          {
+              $is_current_item = ' is-active"';
+          }
+          $output .= sprintf( "\n<li class=\"navigation__item\"><a class=\"navigation__link %s\" href='%s'%s>%s</a></li>\n",
+              ( $item->object_id === get_the_ID() ) ? 'is-active' : $is_current_item,
               $item->url,
-              ( $item->object_id === get_the_ID() ) ? ' class="current"' : '',
+              '',
               $item->title
           );
       

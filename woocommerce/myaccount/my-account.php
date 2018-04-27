@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-do_action( 'b4b_woocommerce_account_navigation1' );
+//do_action( 'b4b_woocommerce_account_navigation1' );
 wc_print_notices();
 
 /**
