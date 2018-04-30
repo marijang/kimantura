@@ -24,13 +24,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 ?>
 <div class="woocommerce-billing-fields">
-
 	<?php do_action( 'woocommerce_before_checkout_billing_form', $checkout ); ?>
-
 	<div class="woocommerce-billing-fields__field-wrapper">
 		<?php
 			$fields = $checkout->get_checkout_fields( 'billing' );
-
 			foreach ( $fields as $key => $field ) {
 				if ( isset( $field['country_field'], $fields[ $field['country_field'] ] ) ) {
 					$field['country'] = $checkout->get_value( $field['country_field'] );
@@ -39,7 +36,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 			}
 		?>
 	</div>
-
 	<?php do_action( 'woocommerce_after_checkout_billing_form', $checkout ); ?>
 </div>
 

@@ -72,6 +72,10 @@
         @include typi('small');
         margin-right: $grid-gutter*3;
         position: relative;
+        &.is-activated{
+            border: 1px solid $primary-color;
+            background: transparent;
+        }
         &.is-active{
             color:$page-shop-checkout-navigation-item-text-active;
             background: $page-shop-checkout-navigation-item-background-active;

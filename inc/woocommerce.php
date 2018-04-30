@@ -467,6 +467,115 @@ if ( ! function_exists( 'b4b_is_billing' ) ) {
     }
 }
 
+/**
+ * Summary.
+ *
+ * Description.
+ *
+ * @since x.x.x
+ *
+ * @param type  $var Description.
+ * @param array $args {
+ *     Short description about this hash.
+ *
+ *     @type type $var Description.
+ *     @type type $var Description.
+ * }
+ * @param type  $var Description.
+ */
+
+
+if ( ! function_exists( 'b4b_add_step_navigation_script' ) ) {
+	/**
+	 * Support Step Wizard.
+	 *
+	 * Wraps all homepage content in wrappers which match the theme markup.
+	 *
+	 * @return void
+	 */
+	function b4b_add_step_navigation_script() {		;
+		// add javascript
+		wp_enqueue_script( 'b4b-multistep-woocommerce', get_template_directory_uri() . '/js/wc-multistep.js', array(),'' );
+		//wc_get_template_part( 'b4b/checkout', 'navigation' );
+		//echo get_template_part( 'woocommerce/b4b/checkout', 'navigation' );
+	}
+}
+
+remove_action( 'woocommerce_checkout_order_review', 'woocommerce_checkout_payment', 20 );
+add_action( 'b4b_woocommerce_checkout_payment', 'woocommerce_checkout_payment', 20 );
+add_action( 'woocommerce_after_checkout_form', 'b4b_add_step_navigation_script', 40 );
+
+
+
+//  reOrder Fields from checkout field in Woocommerce
+add_filter("woocommerce_checkout_fields", "order_fields");
+function order_fields($fields) {
+	unset($fields['order']['order_comments']);
+	unset($fields['billing']['billing_company']); // remove the option to enter in a company
+	unset($fields['billing']['billing_state']); // remove the billing state
+	//unset($fields['billing']['billing_country']); // remove the billing country
+	unset($fields['billing']['billing_address_2']); // remove the second line of the address
+	//var_dump($fields);
+	$fields["billing"]['billing_first_name']['priority']= 10;
+	$fields["billing"]['billing_last_name']['priority'] = 20;
+	$fields["billing"]['billing_email']['priority']		= 30;
+	$fields["billing"]['billing_address_1']['priority'] = 40;
+	$fields["billing"]['billing_phone']['priority']		= 50;
+	$fields["billing"]['billing_postcode']['priority']	= 60;
+	$fields["billing"]['billing_city']['priority']		= 70;
+	$fields["billing"]['billing_country']['priority']	= 190;
+	$fields["billing"]['billing_city']['class']         = array('form-row-first'); 
+	$fields["billing"]['billing_postcode']['class']     = array('form-row-last');
+	//$fields["billing"]['billing_country']['class']    	= array('form-row-wide');
+	//var_dump($fields);
+    return $fields;
+}
+function authorize_gateway_icon( $icon, $id ) {
+    if ( $id === 'authorize_net_dpm' ) {
+        return '<img src="' . get_bloginfo('stylesheet_directory') . '/images/woocommerce-icons/cards.png" alt="Authorize.net" />'; 
+    } else {
+        return $icon;
+    }
+}
+add_filter( 'woocommerce_gateway_icon', 'authorize_gateway_icon', 10, 2 );
+
+/**
+ * Custom PayPal button text
+ *
+ */
+
+add_filter( 'gettext', 'ld_custom_paypal_button_text', 20, 3 );
+function ld_custom_paypal_button_text( $translated_text, $text, $domain ) {
+	switch ( $translated_text ) {
+		case 'Proceed to PayPal' :
+			$translated_text = __( 'Platite Paypalom', 'woocommerce' );
+			break;
+	}
+	return $translated_text;
+}
+
+// Change order tekst
+add_filter( 'woocommerce_order_button_text', 'woo_custom_order_button_text' ); 
+function woo_custom_order_button_text() {
+    return __( 'Platite', 'woocommerce' ); 
+}
+
+// Change payment icons
+add_filter ('woocommerce_gateway_icon', 'custom_woocommerce_icons');
+ 
+function custom_woocommerce_icons() {
+    $icon  = '<img src="' . trailingslashit( get_template_directory_uri() ) . 'img/build/svg/visa.svg' . '" alt="Visa" />';
+    $icon .= '<img src="' . trailingslashit( get_template_directory_uri() ) . 'img/build/svg/mastercard.svg' . '" alt="Mastercard" />';
+    $icon .= '<img src="' . trailingslashit( get_template_directory_uri() ) . 'img/build/svg/amex.svg' . '" alt="American Express" />';
+    $icon .= '<img src="' . trailingslashit( get_template_directory_uri() ) . 'img/build/svg/discover.svg' . '" alt="Visa" />';
+    $icon .= '<img src="' . trailingslashit( get_template_directory_uri() ) . 'img/build/svg/jcb.svg' . '" alt="JCB" />';
+    $icon .= '<img src="' . trailingslashit( get_template_directory_uri() ) . 'img/build/svg/diners.svg' . '" alt="Diners Club" />';
+    return 'custom ikona';
+    return $icon; 
+}
+
+
+
 add_filter('b4b_checkout_step','b4b_test');
 
 function b4b_test($step=1) {
@@ -518,8 +627,8 @@ function b4b_test($step=1) {
     //$t.='Step='.$step;
 	$t  .= '<ul class="page__shop-checkout-navigation">';
 	// First item
-	$t  .= '<li class="page__shop-checkout-navigation-item '. ( ($step == 0) ? 'is-active' : '').'" >';
-	$t  .= __('Košarica','b4b');
+	$t  .= '<li id="wc-multistep-cart" data-step="cart" class="page__shop-checkout-navigation-item '. ( ($step == 0 ) ? 'is-active' : '').' '. ( ($step > 0 ) ? 'is-activated' : '').'" >';
+	//$t  .= __('Košarica','b4b');
 	if ($step>0){
 		$t .= '<a href="'.get_permalink( wc_get_page_id( 'cart' )).'">'.__('Košarica','b4b').'</a>';
 	}else{
@@ -527,15 +636,15 @@ function b4b_test($step=1) {
 	}
 	$t  .= '</li>';
 	// Second item
-	$t  .= '<li class="page__shop-checkout-navigation-item '. ( ($step == 1) ? 'is-active' : '').'" >';
+	$t  .= '<li id="wc-multistep-details" data-step="customer-details" class="page__shop-checkout-navigation-item '. ( ($step == 1) ? 'is-active' : '').'" >';
 	$t  .= __('Dostava','b4b');
 	$t  .= '</li>';
 	// Third item
-	$t  .= '<li class="page__shop-checkout-navigation-item '. ( ($step == 2) ? 'is-active' : '').'" >';
+	$t  .= '<li id="wc-multistep-payment" data-step="payment" class="page__shop-checkout-navigation-item '. ( ($step == 2) ? 'is-active' : '').'" >';
 	$t  .= __('Način plačanja','b4b');
 	$t  .= '</li>';
 	// Fourth Item
-	$t  .= '<li class="page__shop-checkout-navigation-item is-last 
+	$t  .= '<li id="wc-multistep-finish" data-step="finish" class="page__shop-checkout-navigation-item is-last 
 	'. ( ($step == 3) ? ' is-active' : '').'" >';
 	$t  .= __('Potvrda','b4b');
 	$t  .= '</li>';
@@ -680,11 +789,6 @@ if ( ! function_exists( 'b4b_woocommerce_after_checkout' ) ) {
 }
 add_action( 'woocommerce_after_cart', 'b4b_woocommerce_after_checkout', 0 );
 add_action( 'woocommerce_after_checkout_form', 'b4b_woocommerce_after_checkout', 0 );
-
-
-
-
-
 
 
 
