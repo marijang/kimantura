@@ -5,6 +5,16 @@
  * @package kimnaturaV1
  */
 
+/**
+ * Helper Functions.
+*/
+// Function to get an image's ID by it's full sized URL
+function get_image_id_by_url( $image_url ) {
+    global $wpdb;
+    $attachment = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE guid='%s';", $image_url ) ); 
+    return $attachment[0]; 
+}
+
 
 /**
  * Add a social share links.
@@ -52,6 +62,8 @@ function b4b_social_icons() {
     
 }
 add_action( 'b4b_social_icons', 'b4b_social_icons' );
+
+
 
 
 

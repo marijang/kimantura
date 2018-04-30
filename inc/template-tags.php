@@ -170,14 +170,14 @@ if ( ! function_exists( 'kimnaturav1_post_thumbnail' ) ) :
 
 			<div class="post-thumbnail">
 		
-				<?php the_post_thumbnail(); ?>
+				<?php the_post_thumbnail( 'blogarchive'); ?>
 			</div><!-- .post-thumbnail -->
 
 		<?php else : ?>
 
 		<a class="post-thumbnail" href="<?php the_permalink(); ?>" aria-hidden="true">
 			<?php
-			the_post_thumbnail( 'post-thumbnail', array(
+			the_post_thumbnail( 'blogarchive', array(
 				'alt' => the_title_attribute( array(
 					'echo' => false,
 				) ),

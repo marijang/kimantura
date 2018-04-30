@@ -45,8 +45,12 @@
     color: $navigation-link-color;
     text-decoration: $link-decoration;
     position: relative;
-    font-weight: bold;
+    //font-weight: bold;
     letter-spacing: 0.4px;
+    display: block;
+    .mi,.material-icons{
+        display: block;
+    }
     &.is-active,&.current{
         color: $navigation-hover-color;
     }

@@ -165,47 +165,21 @@ function kimnaturav1_woocommerce_related_products_args( $args ) {
 }
 add_filter( 'woocommerce_output_related_products_args', 'kimnaturav1_woocommerce_related_products_args' );
 
-if ( ! function_exists( 'b4b_woocommerce_product_columns_wrapper' ) ) {
+if ( ! function_exists( 'kimnaturav1_woocommerce_product_columns_wrapper' ) ) {
 	/**
 	 * Product columns wrapper.
 	 *
 	 * @return  void
 	 */
-	function b4b_woocommerce_product_columns_wrapper() {
+	function kimnaturav1_woocommerce_product_columns_wrapper() {
 		$columns = kimnaturav1_woocommerce_loop_columns();
 		echo '<div class="shop"><div class="shop__sidebar">';
 		dynamic_sidebar('woocommerce-shop');
 		echo '</div>';
 		echo '<div class="shop__products columns-' . absint( $columns ) . '">';
-		
 	}
 }
-add_action( 'woocommerce_before_shop_loop', 'b4b_woocommerce_product_columns_wrapper', 5 );
-
-
-if ( ! function_exists( 'b4b_woocommerce_products_list_header_wrap_start' ) ) {
-	/**
-	 * Product columns wrapper.
-	 *
-	 * @return  void
-	 */
-	function b4b_woocommerce_products_list_header_wrap_start() {
-		echo '<div class="shop__products-header">';
-	}
-}
-add_action( 'woocommerce_before_shop_loop', 'b4b_woocommerce_products_list_header_wrap_start', 6 );
-
-if ( ! function_exists( 'b4b_woocommerce_products_list_header_wrap_end' ) ) {
-	/**
-	 * Product columns wrapper.
-	 *
-	 * @return  void
-	 */
-	function b4b_woocommerce_products_list_header_wrap_end() {
-		echo '</div>';
-	}
-}
-add_action( 'woocommerce_before_shop_loop', 'b4b_woocommerce_products_list_header_wrap_end', 31 );
+add_action( 'woocommerce_before_shop_loop', 'kimnaturav1_woocommerce_product_columns_wrapper', 10 );
 
 if ( ! function_exists( 'kimnaturav1_woocommerce_product_columns_wrapper_close' ) ) {
 	/**
@@ -372,8 +346,8 @@ if ( ! function_exists( 'b4b_woocommerce_after_main_content' ) ) {
 	 */
 	function b4b_woocommerce_after_main_content() {		
 		$args = array( 'numberposts' => '1' );
-		echo '<div class="section">';
-        echo '<h3 class="section__title">'.__('Posljedne novosti').'</h3>';
+		echo '<div class="woocommerce__blog">';
+        echo '<h1 class="page__title">'.__('Posljedne novosti').'</h1>';
 		global $wpdb,$post;
 		$result = $wpdb->get_results("
 			SELECT $wpdb->posts.* 
@@ -795,32 +769,79 @@ add_action( 'init1', 'bbloomer_disable_jetpack_publicize_woocommerce' );
 
 
 function woocommerce_category_image() {
-	/*
-		$terms = get_terms( 'product_tag' );
-		$term_array = array();
-		if ( ! empty( $terms ) && ! is_wp_error( $terms ) ){
-			foreach ( $terms as $term ) {
-				$term_array[] = $term->name;
-			}
-		}
-	*/
-	//var_dump(wp_get_additional_image_sizes());
 
-	$thumbnail_id='';
+
+	//if ( is_post_type_archive( 'product' ) || is_tax( array( 'product_cat', 'product_tag' ) ) ) {
+
+		$attribute_taxonomies = wc_get_attribute_taxonomies();
+
+		foreach ( $attribute_taxonomies as $attribute ) {
+
+
+		}
+
+		$terms = get_terms( 'product_tag' );
+$term_array = array();
+if ( ! empty( $terms ) && ! is_wp_error( $terms ) ){
+    foreach ( $terms as $term ) {
+        $term_array[] = $term->name;
+    }
+}
+//print_r($terms);
+
+	//}
+    //echo get_option( 'woocommerce_shop_page_id');
+    // Old fashion way
     if ( is_product_category()  ){
 	    global $wp_query;
 		$cat = $wp_query->get_queried_object();
 		// Get thumbnail
 	    $thumbnail_id = get_woocommerce_term_meta( $cat->term_id, 'thumbnail_id', true );
 		$image = wp_get_attachment_url( $thumbnail_id );
-		//echo '<div class="page__image">'.wp_get_attachment_image( $thumbnail_id , 'shopcategory' ) . '</div>';
+		if (function_exists('get_wp_term_image'))
+		{
+			$meta_image = get_wp_term_image($cat->term_id); 
+			if ($meta_image){
+				// Get image id
+				$image_id = get_image_id_by_url($meta_image);
+				$term_image = wp_get_attachment_image_src( $image_id, 'product-category-head' );
+				$term_image = $term_image[0];
+				//var_dump($term_image);
+				echo '<div class="page__image"><img src="' . $term_image . '" alt="'.$cat->name.'" /></div>';
+			}else{			
+			    echo '<div class="page__image">'.wp_get_attachment_image( $thumbnail_id , 'product-category-head' ) . '</div>';
+			}
+		}else{
+			echo '<div class="page__image">'.get_the_post_thumbnail(get_option( 'woocommerce_shop_page_id'),'product-category-head' ). '</div>';
+		}
+	}else{
+		global $wp_query; 
+		$category_name = get_query_var( 'product_cat' );//$wp_query->query_vars['product_cat'];
+		$category = explode(',',$category_name);
+		if( isset($category[0]) && $category_name != '') 
+		{
+			$category_object = get_term_by('name', $category[0], 'product_cat');
+			$category_id = $category_object->term_id;
+			if (function_exists('get_wp_term_image'))
+			{
+				$meta_image = get_wp_term_image($category_id); 
+				if ($meta_image){
+					echo '<div class="page__image"><img src="' . $meta_image . '" alt="'.$category_name.'" /></div>';
+				}else{
+					echo '<div class="page__image">'.get_the_post_thumbnail(get_option( 'woocommerce_shop_page_id'),'product-category-head') . '</div>';
+				}
+				
+			}
+			echo $category_id;
+			echo wp_get_attachment_image( $category_id , 'product-category-head' );
+		}else{
+	
+			echo '<div class="page__image">'.get_the_post_thumbnail( get_option( 'woocommerce_shop_page_id'),'product-category-head' ) . '</div>';
+		}
 		
 	}
-	if(!empty($thumbnail_id)){
-		echo '<div class="page__image">'.wp_get_attachment_image( $thumbnail_id , 'shopcategory' ) . '</div>';
-	}else{
-		echo '<div class="page__image">'.get_the_post_thumbnail(get_option( 'woocommerce_shop_page_id'),'shopcategory' ). '</div>';
-	}
+	//get_the_post_thumbnail(10,'product-category-head');
+	
 }
 add_action( 'woocommerce_archive_description', 'woocommerce_category_image');
 
@@ -899,14 +920,12 @@ $posts_args = array(
   $posts_query = new WP_Query( $posts_args );
 
 */
-	$taxonomies = array();
-	
+    $taxonomies = array();
 	if (!empty($_GET['category'])) {
-		$categories = explode(',',$_GET['category']);
 		$taxonomies[] = array (
 			'taxonomy' => 'product_cat',
-			'field' => 'slug',
-			'terms' => $categories
+			'field' => 'name',
+			'terms' => $_GET['category'],
 		);
 	}
 

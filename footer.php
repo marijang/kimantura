@@ -19,7 +19,7 @@
         <div class="footer__content">
            <div>
              <figure class="footer__logo">
-             <img src="<?php echo get_template_directory_uri(); ?>/img/logo.png" alt="Logo" width="HERE" height="HERE" />
+             <img src="<?php echo get_template_directory_uri(); ?>/img/kimnatura-white.png" alt="Logo" width="HERE" height="HERE" />
             </figure>
              <p>
              <?php
@@ -82,7 +82,7 @@
 
 
 
-
+<?php do_action('b4b_after_footer');?>
 <?php wp_footer(); ?>
 
 </body>

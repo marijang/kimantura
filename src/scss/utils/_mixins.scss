@@ -102,3 +102,35 @@
     box-shadow: bottom-shadow($depth), top-shadow($depth);  
   }
 }
+
+
+
+@mixin animatedBorderBottom($color-underline) {
+  & {
+    $border-height: 160%; // set height of underline here
+    $color-base: rgba(0,0,0,0);
+    text-decoration: none;
+    color: inherit;
+    background-size: 100% $border-height; 
+    background-image: linear-gradient(
+      to top,
+      $color-underline 50%,
+      $color-base 50%
+    );
+    // If you have global transition mixin use it instead
+    -webkit-transition: all 400ms;
+    -moz-transition: all 400ms;
+    transition: all 400ms;
+    &:before, &:after {
+      content: '';
+      display: inline-block;
+      width: 5px;
+    }
+    &:hover {
+      color: darken($color-underline, 60%);
+      text-shadow: none;
+      background-position: 0 100%;
+      background-size: 100% 300%;
+    }
+  }
+}

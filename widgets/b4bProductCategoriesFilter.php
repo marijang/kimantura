@@ -39,7 +39,10 @@ class b4bProductCategories_widget extends WP_Widget {
         //$blog_title = get_bloginfo( 'name' );
         //$tagline = get_bloginfo( 'description' );
         echo $args['before_widget'] . $args['before_title'] . $title . $args['after_title']; 
-    
+
+
+        global $wp_query;
+     //var_dump( $wp_query);
         // Custom Woo Category Output
         $taxonomy     = 'product_cat';
       //  $orderby      = 'menu_order';  
@@ -68,20 +71,29 @@ class b4bProductCategories_widget extends WP_Widget {
 
         $count = count( $product_categories );
         if ( $count > 0 ) {
+            $categories = array();
+            if (!empty($_GET['category'])) {
+                $categories = explode(',',$_GET['category']);
+                echo '<input name="product_cat" type="hidden" value="'.esc_attr($_GET['category']).'">';
+            }else{
+                echo '<input name="product_cat" type="hidden" value="" data-parent="autmn">';
+            }
         echo '<ul class="shop-categories__list">';
 
         foreach ( $product_categories as $cat ) {
             $active_cat = $cat->name == single_cat_title( '', false ) ? ' is-active' : '';
             $terms = get_term_children( $cat->term_id,  $taxonomy );
-           
+            $checked = in_array($cat->slug,$categories) ? 'checked':'';
             echo '
             <li class="shop-categories__item' . $active_cat . '">' .
-                '<a href="' . esc_url( get_term_link( $cat ) ) . '">' .
+                
+                '<label href1="' . esc_url( get_term_link( $cat ) ) . '" data-term="'.$cat->id.'">'.
+                '<input name="product_cat[]" type="checkbox" value="'.$cat->slug.'" '.$checked.'>'.
                 '<span class="shop-categories__title">' . esc_html( $cat->name ) . '</span>';
                 if(!empty($terms) ) {
                 echo '<i class="mi shop-categories__icon">keyboard_arrow_up</i>';
                 }
-            echo '</a>' ;
+            echo '</label>' ;
             
             if(!empty($terms) ) {
                 $category_id = $cat->term_id;       
@@ -101,13 +113,16 @@ class b4bProductCategories_widget extends WP_Widget {
                 if($sub_cats) {
                     foreach($sub_cats as $sub_category) {
                         $active_cat_S = $sub_category->name == single_cat_title( '', false ) ? ' is-active' : '';
+                        $checked = in_array($sub_category->slug,$categories) ? 'checked':'';
                         echo '
-                        <li class="shop-categories__item' . $active_cat_S . '">' .
-                            '<a href="' . esc_url( get_term_link( $sub_category ) ) . '">' .
+                        <label class="shop-categories__item' . $active_cat_S . '">' .
+                        '<input name="product_cat[]" type="checkbox"  value="'.$sub_category->slug.'" '.$checked.'>'.
+                            '<span href1="' . esc_url( get_term_link( $sub_category ) ) . '">' .
+                           
                             '<span class="shop-categories__title">' . esc_html( $sub_category->name ) . '</span>' .
                             ' <span class="shop-categories__count">' . $sub_category->count . '</span>'.
-                            '</a>
-                        </li>' ;
+                            '</span>
+                        </label>' ;
                     }   
                 }
                 echo '</ul>';
@@ -118,7 +133,9 @@ class b4bProductCategories_widget extends WP_Widget {
            
         }
 
-        echo '</ul>';
+        echo '</ul>
+        <button class="btn btn--primary .testajax">Test Ajax<button>
+        ';
         }
     
         echo $args['after_widget'];

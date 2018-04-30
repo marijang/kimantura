@@ -22,11 +22,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 ?>
-<p class="woocommerce-result-count">
+<div class="woocommerce-result-count shop__products-result-count">
 	<?php
+	//printf( _nx( 'Showing the single result', 'Showing all %d results', $total, 'woocommerce' ), $total );
 	if ( $total <= $per_page || -1 === $per_page ) {
 		/* translators: %d: total results */
-		printf( _n( 'Showing the single result', 'Showing all %d results', $total, 'woocommerce' ), $total );
+		printf( _nx( 'Showing the single result', 'Showing all %d results', $total, 'woocommerce' ), $total );
 	} else {
 		$first = ( $per_page * $current ) - $per_page + 1;
 		$last  = min( $total, $per_page * $current );
@@ -34,4 +35,4 @@ if ( ! defined( 'ABSPATH' ) ) {
 		printf( _nx( 'Showing the single result', 'Showing %1$d&ndash;%2$d of %3$d results', $total, 'with first and last result', 'woocommerce' ), $first, $last, $total );
 	}
 	?>
-</p>
+</div>

@@ -4,6 +4,21 @@
     grid-gap: $grid-gutter*2;
     @include section();
 
+
+    @include element('products-header'){
+        display: flex;
+        padding-bottom: $grid-gutter;
+        border-bottom: 1px solid $color-dark-grey
+    }
+    @include element('products-ordering'){
+        
+    }
+    @include element('products-result-count'){
+        flex: 1;
+        align-self: center;
+
+    }
+
     @include element('sidebar'){
         grid-column: 1/4;
         h4{
@@ -12,9 +27,7 @@
     }
     @include element('products'){
         grid-column: 4/13;
-        display: flex;
-        display:flex;
-        flex-wrap: wrap;
+
     }
 
     @include element('products-list'){

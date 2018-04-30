@@ -38,8 +38,8 @@ $breakpoints: (
 
 $typi: (
   base: (
-    null: (18px, 1.4),
-    small: (16px,1.4),
+    null: (18px, 1.5),
+    small: (16px,1.5),
     large: (20px,1.5)
   ),
   h1: (
@@ -61,10 +61,14 @@ $typi: (
     null: (20px)
   ),
   p: (
-    null: (18px)
+    null: (18px,1.5)
   ),
   subtitle: (
     null:(24px,38px)
+  ),
+  
+  blogtitle:(
+    null: (28px,43px)
   ),
 
   label:(
@@ -130,4 +134,7 @@ p {
     margin-bottom: vr(1);
     letter-spacing: $font-base-letter-spacing;
     -webkit-font-smoothing: antialiased;
+    a{
+      @include animatedBorderBottom($primary-color);
+    }
 }

@@ -21,4 +21,27 @@
             margin-top: 0px;
         }
     }
+
+    @include element('divider'){
+        display: block;
+        border: 0;
+        text-align: center;
+        overflow: visible;
+        margin-top: 52px;
+        margin-bottom: 42px;
+        &:before {
+            --x-height-multiplier: 0.342;
+            --baseline-multiplier: 0.22;
+            content: '...';
+            display: inline-block;
+            margin-left: .6em;
+            color: rgba(0,0,0,.68);
+            position: relative;
+            top: -30px;
+            font-weight: 400;
+            font-style: italic;
+            font-size: 30px;
+            letter-spacing: .6em;
+        }
+    }
 }

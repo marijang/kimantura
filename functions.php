@@ -1,10 +1,10 @@
 <?php
 /**
- * kimnaturaV1 functions and definitions
+ * Bit4Bytes functions and definitions
  *
  * @link https://developer.wordpress.org/themes/basics/theme-functions/
  *
- * @package kimnaturaV1
+ * @package b4b
  */
 
 /**
@@ -13,7 +13,7 @@
  * @package bit4bytes
  */
 
-
+require get_template_directory() . '/rest/WP_AJAX.php';
 //remove_filter( 'the_content', 'wpautop' );
 //add_filter( 'the_content', 'wpautop' , 12);
 require get_template_directory() . '/inc/B4B.php';
@@ -197,13 +197,10 @@ if ( ! function_exists( 'bit4bytes_cart_link' ) ) {
 	 */
 	function bit4bytes_cart_link() {
 		?>
-		<a href="<?php echo esc_url( wc_get_cart_url() ); ?>" id="cart" title="Cart">
-		<i class="fa fa-shopping-cart"></i> 
-        <span class="cart__contents">
-            (
-			<?php echo WC()->cart->get_cart_contents_count();?>
-			)
-        </span>
+		<a href="<?php echo esc_url( wc_get_cart_url() ); ?>" id="cart" title="Cart" class="btn__cart navigation__link">
+		<i class="material-icons mi">shopping_cart</i>
+		<span class="btn__badge"><?php echo WC()->cart->get_cart_contents_count();?></span> 
+      
         
         
         </a>
@@ -213,22 +210,7 @@ if ( ! function_exists( 'bit4bytes_cart_link' ) ) {
 	}
 }
 
-/** Mini-Cart 
- * 
- * 	<a class="cart-contents"  style="display:none;" href="<?php echo esc_url( wc_get_cart_url() ); ?>" title="<?php esc_attr_e( 'View your shopping cart', 'storefront' ); ?>">
-				<span class="amount">
-                   <?php echo wp_kses_data( WC()->cart->get_cart_subtotal() ); ?>
-                </span> 
-                <span class="count">
-                  <?php echo wp_kses_data( sprintf( 
-                                           _n( '%d item', '%d items', WC()->cart->get_cart_contents_count()
-                                           , 'storefront' 
-                                         )
-                      , WC()->cart->get_cart_contents_count() ) );?>
-                </span>
-			</a>
- * 
-*/
+
 
 if ( ! function_exists( 'bit4bytes_woocommerce_mini_cart' ) ) {
 
@@ -271,8 +253,8 @@ if ( ! function_exists( 'bit4bytes_header_cart' ) ) {
 		<ul id="site-header-cart" class="navigation__secondary navigation__list navigation__list--left">
 		
 		<li class="navigation__item"><a href="" class="navigation__link">EN</a></li>
-          <li class="navigation__item"><a href="" class="navigation__link"> <i class="fas fa-search"></i></a></li>
-          <li class="navigation__item"><a href="/my-account" class="navigation__link"> <i class="fas fa-user"></i></a></li>
+          <li class="navigation__item"><a href="#" id="btn-search" class="navigation__link"> <i class="material-icons mi">search</i></a></li>
+          <li class="navigation__item"><a href="/my-account" class="navigation__link"><i class="material-icons">account_circle</i></a></li>
 			<li class="<?php echo esc_attr( $class ); ?> navigation__item">
 				<?php bit4bytes_cart_link(); ?>
 			</li>
@@ -357,6 +339,15 @@ if ( ! function_exists( 'kimnaturav1_setup' ) ) :
 		add_theme_support( 'post-thumbnails' );
 		set_post_thumbnail_size( 1200, 9999 );
 
+		// additional image sizes
+    // delete the next line if you do not need additional image sizes
+		add_image_size( 'shopcategory', 1200,400, array( 'left', 'top' ) ); //300 pixels wide (and unlimited height)
+		add_image_size( 'blogarchive', 9999,500, true ); //300 pixels wide (and unlimited height)
+		
+	
+		//
+		//banner web shop (kategorija proizvoda) - 1200 x 400 px 72 dpi i veća dimenzija 2400 x 800 px 72 dpi (ova fotografija mora biti uža zbog toga što se iznad nje nalazi naslov i opis pa kada korisnik dolazi na tu stranicu ispod nje se ne naziru proizvodi, zbog toga preporučamo visinu 400px jer na ovoj stranici je bitno da se vide proizvodi s obzirom da se radi o web shopu.)
+
 		// This theme uses wp_nav_menu() in one location.
 		register_nav_menus( array(
 			'menu-1' => esc_html__( 'Primary', 'b4b' ),
@@ -401,6 +392,19 @@ if ( ! function_exists( 'kimnaturav1_setup' ) ) :
 endif;
 add_action( 'after_setup_theme', 'kimnaturav1_setup' );
 
+
+// Register the three useful image sizes for use in Add Media modal
+add_filter( 'image_size_names_choose', 'wpshout_custom_sizes' );
+function wpshout_custom_sizes( $sizes ) {
+	return array_merge( $sizes, array(
+		'shopcategory' => __( 'Shop Category' ),
+	    'blogarchive' => __( 'Blog Archive' ),
+		//'medium-something' => __( 'Medium Something' ),
+	) );
+}
+
+
+
 /**
  * Set the content width in pixels, based on the theme's design and stylesheet.
  *
@@ -439,12 +443,20 @@ add_action( 'widgets_init', 'kimnaturav1_widgets_init' );
  */
 function kimnaturav1_scripts() {
 
+	global $wp_query;
+	WP_AJAX::WP_HeadAjaxURL();
+	wp_enqueue_script( 'search', get_template_directory_uri() . '/js/search.js', array(),'', true );
+wp_enqueue_script( 'ajax-pagination', get_template_directory_uri() . '/js/ajaxtest.js', array(),'', true );
+wp_localize_script( 'ajax-pagination', 'ajaxpagination', array(
+	'ajaxurl' => admin_url( 'admin-ajax.php' ),
+	'query_vars' => json_encode( $wp_query->query )
+));
 	wp_enqueue_script('jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js', array(), null, true);
 	wp_enqueue_style( 'kimnaturav1-style', get_stylesheet_uri() );
 
 //	wp_enqueue_script( 'kimnaturav1-navigation', get_template_directory_uri() . '/js/navigation.js', array(), '20151215', true );
 
-	wp_enqueue_script( 'kimnaturav1-skip-link-focus-fix', get_template_directory_uri() . '/js/skip-link-focus-fix.js', array(), '20151215', true );
+	//wp_enqueue_script( 'kimnaturav1-skip-link-focus-fix', get_template_directory_uri() . '/js/skip-link-focus-fix.js', array(), '20151215', true );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
@@ -452,15 +464,17 @@ function kimnaturav1_scripts() {
 
 	if (is_shop()){
 		wp_enqueue_script( 'kimnaturav1-collapse', get_template_directory_uri() . '/js/app.js', array(), '20151215', true );
+
 	} 
 	// Register Scripts
 	wp_register_script( 'b4b-cookie-notice', get_template_directory_uri() . '/js/cookie-notice.js', array(), '' );
 
 	// Register materialzecss
+
 	
 	//wp_enqueue_script( 'materialize-css', get_template_directory_uri() . 'css/materialize.min.css', array(), '20151215');
 	wp_enqueue_script( 'materialize-js', get_template_directory_uri() .  '/plugins/materialize.min.js', array(), '20151215');
-	
+	wp_enqueue_script( 'b4b-application', get_template_directory_uri() . '/js/application.js', array(), '', true );
 }
 add_action( 'wp_enqueue_scripts', 'kimnaturav1_scripts' );
 
@@ -505,6 +519,8 @@ require get_template_directory() . '/inc/metabox.php';
 require get_template_directory() . '/widgets/b4bProductCategoriesFilter.php';
 
 require get_template_directory() . '/inc/shortcodes.php';
+require get_template_directory() . '/inc/ajax.php';
+require get_template_directory() . '/inc/search.php';
 
 /**
  * Load Jetpack compatibility file.
@@ -610,7 +626,7 @@ add_action('b4b_single_post_after_content', 'b4b_blog_post_woocommerce_related_p
 
 		<section class="section section--fluid page__related-products">
         <div class="products__most-selling">
-		<h2 class="products__title products__title--center"><?php echo  __('Povezani proizvodi')?></h2>
+		<h4 class="products__title products__title--center"><?php echo  __('Povezani proizvodi')?></h4>
 		<div class="products__slider-wrapper">
 	       <div class="owl-carousel owl-theme products__slider">
 	    <?php

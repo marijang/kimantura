@@ -14,9 +14,9 @@
 	<div class="post__info">
 	    <?php
 		    if ( is_singular() ) :
-			   the_title( '<h2>','</h2>' );
+			   the_title( '<h3>','</h3>' );
 			else :
-				the_title( '<h2 class="post__title"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h2>' );
+				the_title( '<h3 class="post__title"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h3>' );
 			endif;
 			if ( 'post' === get_post_type() ) :
 		?>
@@ -51,7 +51,7 @@
 		) );
 		?>
 		</p>
-	   <a href="<?php echo  esc_url( get_permalink() )?>" rel="bookmark">Saznaj više</a>
+	   <a href="<?php echo  esc_url( get_permalink() )?>" rel="bookmark" class="link link--primary">Saznaj više</a>
 	   <?php //kimnaturav1_entry_footer(); ?>
 	   </div>
 	<div class="post__image">

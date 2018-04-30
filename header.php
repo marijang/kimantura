@@ -24,7 +24,8 @@
 
 </head>
 
-<body <?php body_class('grid'); ?>>
+<body <?php //body_class('grid'); ?>>
+<?php do_action('b4b_before_header');?>
 	<a class="skip-link screen-reader-text" href="#content"><?php esc_html_e( 'Skip to content', 'kimnaturav1' ); ?></a>
 
 	<header class="page__header">
