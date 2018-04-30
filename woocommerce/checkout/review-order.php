@@ -20,13 +20,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 ?>
-<table class="shop_table woocommerce-checkout-review-order-table">
-	<thead>
+<table class="shop_table woocommerce-checkout-review-order-table checkout__totals">
+	<!-- <thead>
 		<tr>
 			<th class="product-name"><?php _e( 'Product', 'woocommerce' ); ?></th>
 			<th class="product-total"><?php _e( 'Total', 'woocommerce' ); ?></th>
 		</tr>
-	</thead>
+	</thead> 
 	<tbody>
 		<?php
 			do_action( 'woocommerce_review_order_before_cart_contents' );
@@ -52,11 +52,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 			do_action( 'woocommerce_review_order_after_cart_contents' );
 		?>
-	</tbody>
+	</tbody> -->
 	<tfoot>
 
 		<tr class="cart-subtotal">
-			<th><?php _e( 'Subtotal', 'woocommerce' ); ?></th>
+			<th class="checkout__subtotal"><?php _e( 'Subtotal', 'woocommerce' ); ?></th>
 			<td><?php wc_cart_totals_subtotal_html(); ?></td>
 		</tr>
 
@@ -84,7 +84,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			</tr>
 		<?php endforeach; ?>
 
-		<?php if ( wc_tax_enabled() && ! WC()->cart->display_prices_including_tax() ) : ?>
+		<!-- <?php if ( wc_tax_enabled() && ! WC()->cart->display_prices_including_tax() ) : ?>
 			<?php if ( 'itemized' === get_option( 'woocommerce_tax_total_display' ) ) : ?>
 				<?php foreach ( WC()->cart->get_tax_totals() as $code => $tax ) : ?>
 					<tr class="tax-rate tax-rate-<?php echo sanitize_title( $code ); ?>">
@@ -98,7 +98,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<td><?php wc_cart_totals_taxes_total_html(); ?></td>
 				</tr>
 			<?php endif; ?>
-		<?php endif; ?>
+		<?php endif; ?> -->
 
 		<?php do_action( 'woocommerce_review_order_before_order_total' ); ?>
 
@@ -107,7 +107,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<td><?php wc_cart_totals_order_total_html(); ?></td>
 		</tr>
 
-		<?php do_action( 'woocommerce_review_order_after_order_total' ); ?>
+		<?php  do_action( 'woocommerce_review_order_after_order_total' ); ?>
 
 	</tfoot>
 </table>

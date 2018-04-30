@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 ?>
 <tr class="shipping">
-	<th><?php echo wp_kses_post( $package_name ); ?></th>
+	<th class="cart__shipping"><?php echo wp_kses_post( $package_name ); ?></th>
 	<td data-title="<?php echo esc_attr( $package_name ); ?>">
 		<?php if ( 1 < count( $available_methods ) ) : ?>
 			<ul id="shipping_method">

@@ -28,7 +28,7 @@ wp_enqueue_script( 'wc-country-select' );
 
 do_action( 'woocommerce_before_shipping_calculator' ); ?>
 
-<form class="woocommerce-shipping-calculator" action="<?php echo esc_url( wc_get_cart_url() ); ?>" method="post">
+<!-- <form class="woocommerce-shipping-calculator" action="<?php echo esc_url( wc_get_cart_url() ); ?>" method="post">
 
 	<p><a href="#" class="shipping-calculator-button"><?php esc_html_e( 'Calculate shipping', 'woocommerce' ); ?></a></p>
 
@@ -90,6 +90,6 @@ do_action( 'woocommerce_before_shipping_calculator' ); ?>
 
 		<?php wp_nonce_field( 'woocommerce-cart' ); ?>
 	</section>
-</form>
+</form> -->
 
 <?php do_action( 'woocommerce_after_shipping_calculator' ); ?>

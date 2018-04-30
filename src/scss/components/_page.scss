@@ -19,6 +19,7 @@
     }
     @include element('title'){
         margin-bottom: 0;
+        font-weight: $font-weight-medium;
     }
     
    
@@ -27,6 +28,7 @@
     @include element('description'){
         font-weight: $font-weight-thin;
         margin-bottom: vr(2);
+        margin-top: 0;
     }
     @include element('title-main'){
         display: block;
