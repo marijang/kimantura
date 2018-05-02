@@ -50,6 +50,27 @@
 		}
 	}
 
+	@include m('secondary'){
+		border: 3px solid $button-primary-border-color;
+		color: $button-primary-color;
+		background:$button-primary-background-color;
+		z-index: 1000;
+		&::after {
+			width: 0%;
+			height: 100%;
+			top: 0;
+			left: 0;
+			background:$button-primary-background-hover-color;
+		}
+		&:hover,:active{
+			color:$button-primary-hover-color;
+			background: transparent;
+			&::after{
+				width: 100%;
+			}
+		}
+	}
+
 	@include m('ghost'){
 		border: 1px solid $button-primary-border-color;
 		color: $primary-color;

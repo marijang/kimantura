@@ -24,7 +24,7 @@ get_header();
             <header class="account__header section__header section__header--content">
                 <?php the_title( '<h1 class="section__title section__title--content">', '</h1>' ); ?>
                 <?php if (!is_user_logged_in()): ?>
-                <?php the_subtitle( '<p class="section__description">', '</p>' ); ?>
+                <?php the_subtitle( '<h4 class="section__description">', '</h4>' ); ?>
                 <?php endif ?>
             </header><!-- .entry-header -->
        

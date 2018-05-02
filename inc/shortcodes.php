@@ -41,7 +41,7 @@ function b4b_gmaps( $args ) {
 	$id = substr( sha1( "Google Map" . time() ), rand( 2, 10 ), rand( 5, 8 ) );
 	ob_start();
 	?>
-	<div class='map' id="karta" style='position: relative;height:<?php echo $args['height'] ?>; margin-bottom: 1.6842em'></div> 
+	<div class='map' id="karta" style='position: relative;height:<?php echo $args['height'] ?>;'></div> 
 
 	<script type='text/javascript'>
 jQuery(document).ready(function(){

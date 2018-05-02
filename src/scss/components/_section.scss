@@ -35,10 +35,16 @@
         margin-left: 0px;
         margin-right: 0px;
      }
-
+    
+    @include element('description'){
+        font-weight: $font-weight-thin;
+        margin-bottom: vr(2);
+        margin-top: 0;
+    }
 
     @include element('title'){
-        //margin-bottom: 0;
+        margin-bottom: 0;
+        font-weight: $font-weight-medium;
         @include m('center'){
             text-align: center;
         }
