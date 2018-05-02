@@ -246,15 +246,29 @@ if ( ! function_exists( 'bit4bytes_header_cart' ) ) {
 			} else {
 				$class = '';
 			}
-
-		
+            $current_user = wp_get_current_user();
+			$email = $current_user->user_emai;
+			$name  = $current_user->user_firstname.' '.$current_user->user_lastname;
+			$dname = $current_user->display_name;
 		?>        
          
 		<ul id="site-header-cart" class="navigation__secondary navigation__list navigation__list--left">
 		
 		<li class="navigation__item"><a href="" class="navigation__link">EN</a></li>
           <li class="navigation__item"><a href="#" id="btn-search" class="navigation__link"> <i class="material-icons mi">search</i></a></li>
-          <li class="navigation__item"><a href="/my-account" class="navigation__link"><i class="material-icons">account_circle</i></a></li>
+		  <li class="navigation__item">
+			<?php if(is_user_logged_in()):  ?>
+			<a href="/my-account" class="navigation__link is-logged-in">
+			       <i class="material-icons">account_circle</i>
+				  <span class="navigation__user-info"><?php echo $name;  ?></span>
+				  </a>
+			<?php else:  ?>
+			<a href="/my-account" class="navigation__link">
+			<i class="material-icons">account_circle</i>
+		    </a>
+			<?php endif  ?>
+			   
+		  </li>
 			<li class="<?php echo esc_attr( $class ); ?> navigation__item">
 				<?php bit4bytes_cart_link(); ?>
 			</li>
@@ -267,6 +281,11 @@ if ( ! function_exists( 'bit4bytes_header_cart' ) ) {
 	}
 }
 
+// Add logo to page
+add_action('b4b_header_logo','b4b_header_logo');
+function b4b_header_logo(){
+	echo get_template_part('img/inline','logo.svg'); 
+}
 
 
   function FOOBAR_get_custom_logo( $blog_id = 0 ) {
