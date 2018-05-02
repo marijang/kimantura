@@ -6,8 +6,8 @@
  */
 
 
-//add_action( 'wp_enqueue_scripts', 'mgms_enqueue_assets' );
-function mgms_enqueue_assets() {
+add_action( 'wp_enqueue_scripts', 'b4b_map_enqueue_assets' );
+function b4b_map_enqueue_assets() {
     wp_enqueue_script( 
         'google-maps-geo', 
         '//maps.googleapis.com/maps/api/js?libraries=geometry', 
@@ -17,7 +17,7 @@ function mgms_enqueue_assets() {
       );
 	wp_enqueue_script( 
 	  'google-maps', 
-	  '//maps.googleapis.com/maps/api/js?key=AIzaSyAzXoaC9OV09c-sTdIWWR1hWzUcJppx_g8&callback=initMap', 
+	  '//maps.googleapis.com/maps/api/js', 
 	  array(), 
 	  '1.0', 
 	  true 
@@ -27,7 +27,7 @@ function mgms_enqueue_assets() {
 }
 
 //Google Maps Shortcode
-//add_shortcode( 'b4b-map', 'b4b_gmaps' );
+add_shortcode( 'b4b-map', 'b4b_gmaps' );
 function b4b_gmaps( $args ) {
 	$args = shortcode_atts( array(
 		'lat'    => '48.856259',

@@ -253,6 +253,10 @@ var headroom  = new Headroom(myElement);
 headroom.init(); 
   
 
+jQuery(window).load(function() {
+  jQuery(".loadingdiv").removeClass("spinner");
+});
+
 
 
 

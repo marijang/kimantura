@@ -19,7 +19,7 @@ get_header();
 				<h1 class="section__title section__title--center">
 					<?php
 					/* translators: %s: search query. */
-					printf( esc_html__( 'Rezultati pretrage za: %s', 'b4b' ), '<span>' . get_search_query() . '</span>' );
+					printf( esc_html__( 'Rezultati pretrage za	: %s', 'b4b' ), '<span>' . get_search_query() . '</span>' );
 					?>
 				</h1>
 			</header><!-- .page-header -->
