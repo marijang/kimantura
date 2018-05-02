@@ -20,5 +20,5 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 ?>
-<div class="shop__products-list">
-<ul class="products columns-<?php echo esc_attr( wc_get_loop_prop( 'columns' ) ); ?>">
+<div class="shop__products-list shop-catalog">
+<ul class="products columns-<?php echo esc_attr( wc_get_loop_prop( 'columns' ) ); ?> shop-catalog__items">

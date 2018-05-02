@@ -1,45 +1,21 @@
-var allPanels = jQuery('.shop-categories > ul').show();
+var allPanels = jQuery('.shop-categories__childs').show();
   
-jQuery('.shop-categories > ul > a').on('click',function(e) {
-  jQuery(this).parent().next().slideToggle();
-  e.preventDefault();
-  return false; 
-});
-
-
-jQuery('.shop-categories>a,.shop-categories__icon').on('click', function(e){
+jQuery('.shop-categories__item--parent>label1,.shop-categories__icon').on('click', function(e){
     e.preventDefault();
-    jQuery(this).parent().parent().find('ul').slideToggle('fast');  // apply the toggle to the ul
+    var $this = jQuery(this);
+    var $thislist = $this.parent();
+    
+    jQuery(this).parent().find('ul').slideToggle('fast');  // apply the toggle to the ul
     jQuery(this).parent().toggleClass('is-expanded');
+    if ($thislist.hasClass('is-expanded')){
+      $this.parent().find('.shop-categories__icon').html('keyboard_arrow_down');
+    }else{
+      $this.parent().find('.shop-categories__icon').html('keyboard_arrow_up');
+    }
     
 });
 
 (function($){
-	function test(){
-
-    console.log(ajaxpagination.query_vars);
-    $.ajax({
-        url: ajaxpagination.ajaxurl,
-        type: 'post',
-        data: {
-            action: 'ajax_pagination',
-            query_vars: ajaxpagination.query_vars,
-            //page: page
-        },
-        beforeSend: function() {
-            $(document).scrollTop();
-            $('body').prepend( '<div class="page-content" id="loader"><h3>Loading New Posts...</h3></div>' );
-        },
-        success: function( html ) {
-            console.log(html);
-            
-            $('#main #loader').remove();
-            $('body').prepend( html );
-        }
-    })
-    
-}
-//test();
 
 var setValue = function(){
   var total = '';
@@ -57,20 +33,13 @@ $.each($('input[name="product_cat[]"]:checked'), function( index, item ){
 
 $('input[name="product_cat[]"]').on('click',function(){
    setValue();
-
    // similar behavior as an HTTP redirect
 //window.location.replace("http://stackoverflow.com");
-
 // similar behavior as clicking on a link
 if($('input[name="product_cat"]').val()!=''){
   window.location.href = "/shop/?category="+$('input[name="product_cat"]').val();
 }
   
 });
-
-
-
-
-
 	
 })(jQuery);

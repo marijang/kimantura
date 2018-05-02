@@ -1,8 +1,0 @@
-@include block('shop-categories'){
-
-
-    @include element('list'){
-        @extend  %accordion;
-    }
-  
-}

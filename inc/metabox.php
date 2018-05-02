@@ -22,6 +22,7 @@ class WPDocs_Custom_Meta_Box {
 
     function get_fields($prefix){
         $custom_meta_fields = array(
+            /*
             array(
                 'label'=> 'Text Input',
                 'desc'  => 'A description for the field.',
@@ -60,9 +61,10 @@ class WPDocs_Custom_Meta_Box {
                     )
                 )
             ),
+            */
             array(
-                'label'=> 'Multiple Select Box',
-                'desc'  => 'A description for the field.',
+                'label'=> 'Linked products',
+                'desc'  => 'Enter linked products.',
                 'id'    => $prefix.'productIds',
                 'name'  => $prefix.'productIds',
                 'type'  => 'multiple',

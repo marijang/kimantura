@@ -70,3 +70,8 @@
         margin-bottom: 0;
     }
 }
+
+@include b('gallery'){
+  margin-left: -200px;
+  margin-right: -100px;
+}

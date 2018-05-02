@@ -1,0 +1,74 @@
+@include block('shop-catalog'){
+    padding: $grid-gutter 0;
+
+    @include element('items'){
+       
+    }
+    @include element('item'){
+        
+    }
+    @include element('image'){
+        overflow: hidden;
+        img{
+            transition: all 1s ease;
+        }
+        &:hover{
+            img{
+                transform: scale(1.1);
+            }
+            
+        }
+    }
+    @include element('onsale'){
+        width: 64px;
+        height: 134px;
+        background: $primary-color;
+        position: absolute;
+        top:-45px;
+        right:-10px;
+        -webkit-transform: rotate(-45deg);
+        -moz-transform: rotate(-45deg);
+            -ms-transform: rotate(-45deg);
+            -o-transform: rotate(-45deg);
+                transform: rotate(-45deg);
+        span{
+            position:absolute;
+            top:58px;
+            left:4px;
+            -webkit-transform: rotate(45deg);
+               -moz-transform: rotate(45deg);
+                -ms-transform: rotate(45deg);
+                 -o-transform: rotate(45deg);
+                    transform: rotate(45deg);
+            font-size:12px;
+            color:#fff;
+        }
+    }
+    @include element('title'){
+        margin: 0;
+        @include typi('h6');
+        font-weight: normal;
+    }
+    @include element('price'){
+        margin: 0;  
+        @include typi('h6');
+        font-weight: $font-weight-bold;
+    } 
+    @include element('variations'){
+        display: none;
+    }
+    @include element('link-product'){
+        margin: $grid-gutter 0;
+        padding-bottom: $grid-gutter;
+        font-weight: normal;
+    }
+    
+}
+
+/* Tags */
+.sale-tag{
+
+}
+.sale-tag span{
+
+}

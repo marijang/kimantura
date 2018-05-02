@@ -30,7 +30,7 @@ add_action( 'wp_enqueue_scripts', 'wpb_adding_styles' );
 
 
 function b4b_homepage_adding_js() {
-	wp_enqueue_script( 'kimnaturav1-collapse', get_template_directory_uri() . '/js/application.js', array(), '20151215', true );
+	//wp_enqueue_script( 'kimnaturav1-collapse', get_template_directory_uri() . '/js/application.js', array(), '20151215', true );
     if ( is_page_template( 'homepage.php' ) ){
         //wp_register_script('flexslider', theme_url('plugins/jquery.flexslider-min.js', __FILE__), array('jquery'),'1.1', true);   
 		wp_register_script('owlslider', get_template_directory_uri() .'/plugins/owl.carousel.min.js'); 
@@ -55,22 +55,20 @@ if ( ! function_exists( 'b4b_homepage_after_main_content' ) ) {
 	function b4b_homepage_after_main_content() {		
 		$args = array( 'numberposts' => '2' ,'category_name' => 'blog');
 		echo '<div class="section">';
-        echo '<h1 class="section__title section__title--center">'.__('Last news').'</h1>';
+        echo '<h3 class="section__title section__title--center">'.__('Zadnje novosti','b4b').'</h3>';
 		global $wpdb,$post;
-		/*
-		$result1 = $wpdb->get_results("
-			SELECT $wpdb->posts.* 
-			FROM   $wpdb->posts 
-			WHERE  post_type = 'post' 
-			AND    post_status = 'publish'
-			and    cat_id != 35
-			limit 1
-		");
-		*/
+
 		$result = get_posts( $args ) ;
+		$current = 'even';
 		foreach($result as $post):
 		  setup_postdata($post);
-		  get_template_part( 'template-parts/content-blog', get_post_type() ); 
+		  if($current == 'even'){
+			get_template_part( 'template-parts/content-blog', get_post_type() ); 
+			$current = 'odd';
+		  }else{
+			get_template_part( 'template-parts/content-blog-odd', get_post_type() ); 
+			$current = 'even';
+		  }
 		endforeach;
 
 		wp_reset_postdata();	
@@ -82,51 +80,8 @@ add_action( 'b4b_homepage_after_main_content', 'b4b_homepage_after_main_content'
 
 
 
-if ( ! function_exists( 'b4b_woocommerce_most_selling_products' ) ) :
-	/**
-	 * Prints HTML with meta information for the current author.
-	 */
-	function b4b_woocommerce_most_selling_products() {
-        $args = array(
-            'post_type' => 'product',
-            'meta_key' => 'total_sales',
-            'orderby' => 'meta_value_num',
-            'posts_per_page' => 6,
-        );
-		$loop = new WP_Query( $args );
-		?>
-		<section class="section section--fluid">
-        <div class="products__most-selling">
-		<h2 class="products__title products__title--center"><?php echo  __('Najprodavaniji proizvodi')?></h2>
-		<div class="products__slider-wrapper">
-	
-	       <div class="owl-carousel owl-theme products__slider">
-	    <?php
-        while ( $loop->have_posts() ) : $loop->the_post(); 
-            global $product; 
-        ?>
-		<div class="item" style="">
 
-   
-        <a id="id-<?php the_id(); ?>" href="<?php the_permalink(); ?>" title="<?php the_title(); ?>" class="featured-link">
-        <?php 
-        if (has_post_thumbnail( $loop->post->ID )) 
-        echo get_the_post_thumbnail($loop->post->ID, 'shop_catalog',array('class'=>'featured-link__image')); 
-        else echo '<img src="'.woocommerce_placeholder_img_src().'" alt="product placeholder Image" width="65px" height="115px" />'; 
-        ?>
-          <h3 class="featured-link__title"><?php the_title(); ?></h3>
-        </a>
-			
-		</div>
-        <?php endwhile; ?>
-			</div>
-		</div>
-	
-		</div>
-		</section>
-        <?php wp_reset_query(); 
-	}
-endif;
-add_action('b4b_homepage_section', 'b4b_woocommerce_most_selling_products');
+
+add_action('b4b_homepage_section', 'b4b_blog_post_woocommerce_related_products');
 
 

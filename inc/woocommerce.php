@@ -362,63 +362,10 @@ if ( ! function_exists( 'b4b_woocommerce_before_shop_loop_item' ) ) {
 }
 add_action( 'woocommerce_before_shop_loop_item', 'b4b_woocommerce_before_shop_loop_item', 40 );
 
-if ( ! function_exists( 'b4b_woocommerce_after_main_content' ) ) {
-	/**
-	 * Afer Content.
-	 *
-	 * Wraps all WooCommerce content in wrappers which match the theme markup.
-	 *
-	 * @return void
-	 */
-	function b4b_woocommerce_after_main_content() {		
-		$args = array( 'numberposts' => '1' );
-		echo '<div class="section">';
-        echo '<h3 class="section__title">'.__('Posljedne novosti').'</h3>';
-		global $wpdb,$post;
-		$result = $wpdb->get_results("
-			SELECT $wpdb->posts.* 
-			FROM   $wpdb->posts 
-			WHERE  post_type = 'post' 
-			AND    post_status = 'publish'
-			limit 1
-		");
-		$result = get_posts( $args ) ;
-		foreach($result as $post):
-		  setup_postdata($post);
-		  get_template_part( 'template-parts/content-blog', get_post_type() ); 
-		endforeach;
-
-		wp_reset_postdata();	
-        echo '</div>';
-
-	}
-}
-add_action( 'woocommerce_after_main_content', 'b4b_woocommerce_after_main_content', 40 );
 
 
 
-add_filter( 'woocommerce_loop_add_to_cart_link', 'quantity_inputs_for_woocommerce_loop_add_to_cart_link', 10, 2 );
-function quantity_inputs_for_woocommerce_loop_add_to_cart_link( $html, $product ) {
-	if ( $product && $product->is_type( 'simple' ) && $product->is_purchasable() && $product->is_in_stock() && ! $product->is_sold_individually() ) {
-		//$html = '<a href="' . esc_url( $product->add_to_cart_url() ) . '" class="btn btn--primary" >';
-		$html = '<a href="' . esc_url( get_permalink($product->get_ID())) . '" class="btn btn--primary" >';
-		
-		//$html .= woocommerce_quantity_input( array(), $product, false );
-		$html .= '' . esc_html( $product->add_to_cart_text() ) . '';
 
-		$html .= '</a>';
-	}else{
-		$html = '<a href="' . esc_url( get_permalink($product->get_ID())) . '" class="btn btn--primary" >';
-		
-		//$html .= woocommerce_quantity_input( array(), $product, false );
-		$html .= '' . __( 'View product' ) . '';
-
-		$html .= '</a>';
-	}
-
-
-	return $html;
-}
 
 
 if ( ! function_exists( 'b4b_woocommerce_before_checkout_form' ) ) {
@@ -563,7 +510,8 @@ function woo_custom_order_button_text() {
 // Change payment icons
 add_filter ('woocommerce_gateway_icon', 'custom_woocommerce_icons');
  
-function custom_woocommerce_icons() {
+function custom_woocommerce_icons($array) {
+	//var_dump($array);
     $icon  = '<img src="' . trailingslashit( get_template_directory_uri() ) . 'img/build/svg/visa.svg' . '" alt="Visa" />';
     $icon .= '<img src="' . trailingslashit( get_template_directory_uri() ) . 'img/build/svg/mastercard.svg' . '" alt="Mastercard" />';
     $icon .= '<img src="' . trailingslashit( get_template_directory_uri() ) . 'img/build/svg/amex.svg' . '" alt="American Express" />';
@@ -827,7 +775,7 @@ function b4b_woocommerce_cart_item_thumbnail($product_get_image,  $cart_item="",
 	return $product_get_image; 
 }
 
-add_action('woocommerce_cart_item_thumbnail','b4b_woocommerce_cart_item_thumbnail',10,3);
+add_action('woocommerce_cart_item_thumbnail1','b4b_woocommerce_cart_item_thumbnail',10,3);
 
 
 
@@ -933,42 +881,100 @@ add_action("init", function () {
     // removing the woocommerce hook
 	remove_action( 'woocommerce_shop_loop_item_title', 'woocommerce_template_loop_product_title', 10 ); 
 	remove_action( 'woocommerce_after_shop_loop_item_title','woocommerce_template_loop_price',10);
+
+	// Remove image
+	remove_action( 'woocommerce_before_shop_loop_item_title', 'woocommerce_template_loop_product_thumbnail', 10);
+    add_action( 'woocommerce_before_shop_loop_item_title', 'woocommerce_template_loop_product_thumbnail', 10);
 	
 });
 
+if ( ! function_exists( 'woocommerce_template_loop_product_thumbnail' ) ) {
+    function woocommerce_template_loop_product_thumbnail() {
+        echo woocommerce_get_product_thumbnail();
+    } 
+}
+
+if ( ! function_exists( 'woocommerce_get_product_thumbnail' ) ) {   
+    function woocommerce_get_product_thumbnail( $size = 'shopcatalog' ) {
+        global $post, $woocommerce;
+        $output = '<div class="shop-catalog__image">';
+
+        if ( has_post_thumbnail() ) {               
+            $output .= get_the_post_thumbnail( $post->ID, $size );
+        } else {
+           //  $output .= wc_placeholder_img( $size );
+             // Or alternatively setting yours width and height shop_catalog dimensions.
+             // $output .= '<img src="' . woocommerce_placeholder_img_src() . '" alt="Placeholder" width="300px" height="300px" />';
+        }                       
+        $output .= '</div>';
+        return $output;
+    }
+}
+
 // add a new fonction to the hook
 add_action("woocommerce_shop_loop_item_title", function () {
-	echo the_title('<h4 class="shop-product__title">','</h4>');
+	echo the_title('<h4 class="shop-catalog__title">','</h4>');
 });
+
+
+
 add_action("woocommerce_after_shop_loop_item_title", function () {
-	echo "Dostupne kombinacije:";
+	//echo "Dostupne kombinacije:";
 	global $product;
-    if ( $price_html = $product->get_price_html() ) : ?>
-	<div class="shop-product__price"><?php echo $price_html; ?></div>
-    <?php
-	endif;
-	$string ='Nema varijacija'; 
+    if ( $price_html = $product->get_price_html() ) { ?>
+	   <div class="shop-catalog__price"><?php echo $price_html; ?></div>
+	<?php
+	}else{ ?>
+		<div class="shop-catalog__price"><?php echo __('Nema cijene','b4b') ?></div>
+	<?php 
+    }
+	$string =''; 
 	if ($product->is_type( 'variable' )) 
 	{
 		$attributes =  $product->get_variation_attributes() ;
-		
-		if ( $attributes [ 'Pakovanje' ] ) {
-			$string ='<div class="shop-product__variations">';
-			foreach ($attributes [ 'Pakovanje' ] as $variation){
+		$string ='<div class="shop-catalog__variations">';
+		foreach($attributes as $attribute){
+            foreach ($attribute as $variation){
 				$string .='<span>'.$variation.'<span>';
 			}
-			$string .='<div>';
-			
 		}
+		$string .='</div>';	
 	}
 	echo $string;
 });
 
 
+// Change shopping cart products link
+add_filter( 'woocommerce_loop_add_to_cart_link', 'quantity_inputs_for_woocommerce_loop_add_to_cart_link', 10, 2 );
+function quantity_inputs_for_woocommerce_loop_add_to_cart_link( $html, $product ) {
+	if ( $product && $product->is_type( 'simple' ) && $product->is_purchasable() && $product->is_in_stock() && ! $product->is_sold_individually() ) {
+		//$html = '<a href="' . esc_url( $product->add_to_cart_url() ) . '" class="btn btn--primary" >';
+		$html = '<a href="' . esc_url( get_permalink($product->get_ID())) . '" class="shop-catalog__link-product btn btn--ghost btn--small btn--fluid1" >';
+		
+		//$html .= woocommerce_quantity_input( array(), $product, false );
+		//$html .= '' . esc_html( $product->add_to_cart_text() ) . '';
+		$html .= '' . __( 'Idi na proizvod','b4b' ) . '';
+		//$html .= '' . __( 'View product' ) . '';
+
+		$html .= '</a>';
+	}else{
+		$html = '<a href="' . esc_url( get_permalink($product->get_ID())) . '" class="shop-catalog__link-product btn btn--ghost btn--small  btn--fluid1" >';
+		//$html .= woocommerce_quantity_input( array(), $product, false );
+		$html .= '' . __( 'Idi na proizvod','b4b' ) . '';
+		//$html .= '' . esc_html( $product->add_to_cart_text() ) . '';
+
+		$html .= '</a>';
+	}
+	return $html;
+}
 
 
 
-// Shop query
+
+
+
+
+// Shop query for sidebar
 add_action( 'woocommerce_product_query', 'so_27971630_product_query' );
 
 function so_27971630_product_query( $q ){

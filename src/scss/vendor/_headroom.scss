@@ -1,0 +1,48 @@
+/**
+ * Note: I have omitted any vendor-prefixes for clarity.
+ * Adding them is left as an exercise for the reader.
+ */
+ .headroom {
+    will-change: transform;
+    //transition: transform 200ms linear;
+}
+.headroom--pinned1 {
+    transform: translateY(0%);
+}
+.headroom--unpinned1 {
+    transform: translateY(-100%);
+}
+
+.headroom--pinned1 {
+    display: block;
+}
+.headroom--unpinned1 {
+    display: none;
+}
+
+.headroom {
+   
+    background: #fff;
+    z-index: 9998;
+    top: 0;
+    left: 0;
+    right: 0;
+    transition: transform .25s ease-in-out;
+    transition: transform 200ms linear;
+    
+}
+.headroom--top{
+    position: relative!important;
+}
+.headroom--unpinned {
+    top: -108px;
+    transition: .25s;
+    transform: translateY(-108px);
+}
+
+.headroom--pinned {
+    position: fixed;
+   top: 0;
+  transition: .5s;
+}
+

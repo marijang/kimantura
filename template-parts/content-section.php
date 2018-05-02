@@ -11,8 +11,8 @@
 <section class="section section--primary section--fluid">
     <article id="post-<?php the_ID(); ?>" <?php post_class('article'); ?>>
         <header class="article__header">
-            <?php the_title( '<h1 class="article__title article__title--center">', '</h1>' ); ?>
-            <?php the_subtitle( '<p class="article__description">', '</p>' ); ?>
+            <?php the_title( '<h3 class="article__title article__title--center">', '</h3>' ); ?>
+            <?php the_subtitle( '<p class="article__description article__description--center">', '</p>' ); ?>
         </header><!-- .entry-header -->
         <div class="article__content-wrap article__content-wrap--columns">
      

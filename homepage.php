@@ -132,9 +132,9 @@ echo '<div class="homeslider__wrapper">
 
 
 <section class="section newsletter" style="background-image:url(<?php echo b4b_get_theme_image('newsletter.png'); ?>);">
-
+ 
   <?php
-  echo '<h2 class="newsletter__title">'.__('Prijavite se na naš newsletter').'</h2>'; 
+  echo '<h3 class="newsletter__title section__title">'.__('Prijavite se na naš newsletter','b4b').'</h3>'; 
   ?>
   <!-- Modal Structure -->
   <div id="newsletter" class="modal">
@@ -152,14 +152,6 @@ echo '<div class="homeslider__wrapper">
   ?>
 </section>
 
-<div class="section section--primary">
-		<div class="c_input form-group">
-		    <label class="c_input__placeholder control-label">Enter your request</label>
-		    <input name="q" class="c_input__input form-control" type="text">
-		    <button class="footer__btn footer__btn-search" type="submit">
-				<svg class="icon-search "><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-search"></use></svg>
-			</button>
-		</div>
 
 
 

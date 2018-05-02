@@ -9,17 +9,17 @@
 
 get_header();
 ?>
-OVO JE SEARCH
-	<section id="primary" class="content-area">
-		<main id="main" class="site-main">
+
+	<section id="search-results" class="section">
+		<div class="section__content">
 
 		<?php if ( have_posts() ) : ?>
 
 			<header class="page-header">
-				<h1 class="page-title">
+				<h1 class="section__title section__title--center">
 					<?php
 					/* translators: %s: search query. */
-					printf( esc_html__( 'Search Results for: %s', 'kimnaturav1' ), '<span>' . get_search_query() . '</span>' );
+					printf( esc_html__( 'Rezultati pretrage za: %s', 'b4b' ), '<span>' . get_search_query() . '</span>' );
 					?>
 				</h1>
 			</header><!-- .page-header -->
@@ -47,7 +47,7 @@ OVO JE SEARCH
 		endif;
 		?>
 
-		</main><!-- #main -->
+		</div><!-- #main -->
 	</section><!-- #primary -->
 
 <?php

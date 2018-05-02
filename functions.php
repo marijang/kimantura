@@ -340,9 +340,11 @@ if ( ! function_exists( 'kimnaturav1_setup' ) ) :
 		set_post_thumbnail_size( 1200, 9999 );
 
 		// additional image sizes
-    // delete the next line if you do not need additional image sizes
-		add_image_size( 'shopcategory', 1200,400, array( 'left', 'top' ) ); //300 pixels wide (and unlimited height)
-		add_image_size( 'blogarchive', 9999,500, true ); //300 pixels wide (and unlimited height)
+        // delete the next line if you do not need additional image sizes
+		add_image_size( 'shopcategory', 1200,400, true ); //300 pixels wide (and unlimited height) 
+		// stoji dobro ali ne radi dobro!
+		add_image_size( 'blogarchive', 576 , 500, true ); //300 pixels wide (and unlimited height)
+		add_image_size( 'shopcatalog', 300,240, true ); //300 pixels wide (and unlimited height)
 		
 	
 		//
@@ -458,8 +460,29 @@ wp_localize_script( 'ajax-pagination', 'ajaxpagination', array(
 
 	//wp_enqueue_script( 'kimnaturav1-skip-link-focus-fix', get_template_directory_uri() . '/js/skip-link-focus-fix.js', array(), '20151215', true );
 
+
+	// Register scripts
+	wp_register_script( 'owlcarousel', get_template_directory_uri() . '/plugins/owl.carousel.min.js', array(), '' );
+	wp_register_script( 'owlcarouselcss', get_template_directory_uri() . '/plugins/owl.carousel.min.css', array(), '' );
+	wp_register_script( 'owlcarouseltheme', get_template_directory_uri() . '/plugins/owl.theme.default.css', array(), '' );
+
+	wp_register_script( 'headroom', get_template_directory_uri() . '/plugins/headroom.min.js', array(), '',true );
+	wp_register_script( 'scrollmonitor', get_template_directory_uri() . '/plugins/scrollmonitor.js', array(), '',true );
+	wp_register_script( 'anime', get_template_directory_uri() . '/plugins/anime.min.js', array(), '',true );
+	wp_register_script( 'revealfx', get_template_directory_uri() . '/plugins/revealfx.js', array(), '',true );
+	// add for all need fix
+	wp_enqueue_script( 'owlcarousel');		
+	wp_enqueue_style( 'owlcarouselcss');
+	wp_enqueue_style( 'owlcarouseltheme');
+	wp_enqueue_script( 'headroom');
+	wp_enqueue_script( 'scrollmonitor');
+	wp_enqueue_script( 'anime');
+	wp_enqueue_script( 'revealfx');
+	
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
+		
+
 	}
 
 	if (is_shop()){
@@ -468,7 +491,7 @@ wp_localize_script( 'ajax-pagination', 'ajaxpagination', array(
 	} 
 	// Register Scripts
 	wp_register_script( 'b4b-cookie-notice', get_template_directory_uri() . '/js/cookie-notice.js', array(), '' );
-
+    //wp_register_script( 'b4b-cookie-notice', get_template_directory_uri() . '/js/cookie-notice.js', array(), '' );
 	// Register materialzecss
 
 	
@@ -601,65 +624,7 @@ if ( ! function_exists( 'b4b_languages_list' ) ) {
 }
 
 
-// Add language switcher
-add_action('b4b_single_post_after_content', 'b4b_blog_post_woocommerce_related_products');
-//if ( ! function_exists( 'b4b_blog_post_woocommerce_related_products' ) ) :
-	/**
-	 * Prints HTML with meta information for the current author.
-	 */
-	function b4b_blog_post_woocommerce_related_products() {
-		global $post;
-		$productIDs = get_post_meta($post->ID,'custom_productIds',true);
-		//var_dump($productIDs);
-		//var_dump($post->ID);
-		if ($productIDs == ''){
-			$productIDs = array(0);
-		}
-        $args = array(
-            'post_type' => 'product',
-			'post__in' => $productIDs
-        );
-		$loop = new WP_Query( $args );
 
-		if ( $loop->have_posts() ):
-		?>
-
-		<section class="section section--fluid page__related-products">
-        <div class="products__most-selling">
-		<h4 class="products__title products__title--center"><?php echo  __('Povezani proizvodi')?></h4>
-		<div class="products__slider-wrapper">
-	       <div class="owl-carousel owl-theme products__slider">
-	    <?php
-          while ( $loop->have_posts() ) : $loop->the_post(); 
-			   global $product; 
-		?>
-		<div class="item" style="">
-
-   
-        <a id="id-<?php the_id(); ?>" href="<?php the_permalink(); ?>" title="<?php the_title(); ?>" class="featured-link">
-        <?php 
-        if (has_post_thumbnail( $loop->post->ID )) 
-        echo get_the_post_thumbnail($loop->post->ID, 'shop_catalog',array('class'=>'featured-link__image')); 
-        else echo '<img src="'.woocommerce_placeholder_img_src().'" alt="product placeholder Image" width="65px" height="115px" />'; 
-        ?>
-          <h4 class="featured-link__title"><?php the_title(); ?></h4>
-        </a>
-			
-		</div>
-		<?php endwhile; 
-		endif;
-		
-		?>
-			</div>
-		</div>
-	
-		</div>
-		</section>
-		<?php wp_reset_query(); 
-
-		
-	}
-//endif;
 
 
 	

@@ -24,10 +24,11 @@
 </head>
 
 <body <?php //body_class('grid'); ?>>
+<progress class="blog-progress js-progress" value="0" max="1"></progress>
 <?php do_action('b4b_before_header');?>
 	<a class="skip-link screen-reader-text" href="#content"><?php esc_html_e( 'Skip to content', 'kimnaturav1' ); ?></a>
 
-	<header class="page__header">
+	<header class="page__header" id="site-header">
 	
 
 		<nav id="site-navigation" class="navigation">

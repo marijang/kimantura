@@ -12,8 +12,26 @@
         @include container();
     }
     @include element('content'){
-    
+        @include modifier('intendent'){
+           
+            margin-right: 100px;
+        }
     }
+    @include element('content-sidebar'){
+          flex: 1;
+         
+          flex-basis: 200px;
+          flex-grow: 0;
+          flex-shrink: 0;
+    }
+    @include element('content-wrap'){
+        display: flex;
+        .page__content--intendend{
+            flex:1;
+        }
+        
+    }
+
     @include element('article'){
         @include section();
     }
@@ -72,15 +90,24 @@
         @include typi('small');
         margin-right: $grid-gutter*3;
         position: relative;
+
         &.is-activated{
             border: 1px solid $primary-color;
             background: transparent;
+            a{
+                color:$primary-color;
+                display: block;
+            }
         }
         &.is-active{
             color:$page-shop-checkout-navigation-item-text-active;
             background: $page-shop-checkout-navigation-item-background-active;
             &::after{
                 color:$page-shop-checkout-navigation-item-background-active;
+            }
+            a{
+                color:$color-white;
+                display: block;
             }
         }
         &:last-child{

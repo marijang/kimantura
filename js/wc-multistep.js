@@ -9,6 +9,7 @@
     var nextstep = activestep.next();
 
     function init(){
+        jQuery('input[name="payment_method"]:checked').parent().addClass('is-active');
         var count = jQuery('input[name="payment_method"]').length;
         if (count>0){
             jQuery('input[name="payment_method"]').bind('change',function(){

@@ -1,6 +1,96 @@
 /* General button style (reset) */
 
 @include block('btn'){
+	border: none;
+	font-family: inherit;
+	font-size: inherit;
+	color: inherit;
+	background: none;
+	cursor: pointer;
+	padding: $grid-gutter $grid-gutter*2;
+	display: inline-block;
+	//margin: 15px 30px;
+	//text-transform: uppercase;
+	//letter-spacing: 1px;
+	font-weight: 700;
+	outline: none;
+	position: relative;
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	transition: all 0.3s;
+	color:#fff;
+	text-align: center;
+	&::after {
+		content: '';
+		position: absolute;
+		z-index: -1;
+		-webkit-transition: all 0.3s;
+		-moz-transition: all 0.3s;
+		transition: all 0.3s;
+	}
+
+	@include m('primary'){
+		border: 3px solid $button-primary-border-color;
+		color: $button-primary-color;
+		background:$button-primary-background-color;
+		z-index: 1000;
+		&::after {
+			width: 0%;
+			height: 100%;
+			top: 0;
+			left: 0;
+			background:$button-primary-background-hover-color;
+		}
+		&:hover,:active{
+			color:$button-primary-hover-color;
+			background: transparent;
+			&::after{
+				width: 100%;
+			}
+		}
+	}
+
+	@include m('ghost'){
+		border: 1px solid $button-primary-border-color;
+		color: $primary-color;
+		background:transparent;
+		z-index: 1000;
+		&::after {
+			width: 0%;
+			height: 100%;
+			top: 0;
+			left: 0;
+			background:$primary-color;
+		}
+		&:hover,:active{
+			color:$color-white;
+			background: transparent;
+			&::after{
+				width: 100%;
+			}
+		}
+	}
+
+	@include m('fluid'){
+		display: block;
+	}
+
+	@include m('small'){
+		 @include typi('small');
+		 //height: 48px;
+		 line-height: 1;
+		 padding: 16px;
+		 
+	}
+
+
+.btn--primary1:hover:after,
+.btn--primary1:active:after {
+	width: 100%;
+//	width: 0%;
+
+}
+
 	@include element('cart'){
 		position: relative;
 		vertical-align: middle;
@@ -20,27 +110,13 @@
     /* height: 18px; */
     text-align: center;
 	}
+
+
+
 }
 
 .btn {
-	border: none;
-	font-family: inherit;
-	font-size: inherit;
-	color: inherit;
-	background: none;
-	cursor: pointer;
-	padding: $grid-gutter $grid-gutter*2;
-	display: inline-block;
-	//margin: 15px 30px;
-	//text-transform: uppercase;
-	//letter-spacing: 1px;
-	font-weight: 700;
-	outline: none;
-	position: relative;
-	-webkit-transition: all 0.3s;
-	-moz-transition: all 0.3s;
-	transition: all 0.3s;
-	color:#fff;
+
 
 }
 .btn--cta{
@@ -80,10 +156,7 @@
 
 /* Button 1 */
 .btn--primary {
-	border: 3px solid $button-primary-border-color;
-	color: $button-primary-color;
-	background:$button-primary-background-color;
-	z-index: 1000;
+
 }
 .btn--primary-ghost{
   
@@ -110,23 +183,9 @@
 	background:$button-primary-background-hover-color;
 }
 
-.btn--primary:hover,
-.btn--primary:active {
-	color:$button-primary-hover-color;
-	background: transparent;
-//	background: $button-primary-background-hover-color;
-//	color: inherit;
 
-}
 
-.btn--primary:hover:after,
-.btn--primary:active:after {
-	width: 100%;
-//	width: 0%;
-
-}
-
-.btn--small{
+.btn--small1{
 	height: 48px;
 	padding: 0 32px;
 	@include typi('small');

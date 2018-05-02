@@ -38,7 +38,7 @@ class b4bProductCategories_widget extends WP_Widget {
         // before and after widget arguments are defined by themes
         //$blog_title = get_bloginfo( 'name' );
         //$tagline = get_bloginfo( 'description' );
-        echo $args['before_widget'] . $args['before_title'] . $title . $args['after_title']; 
+        //echo $args['before_widget'] . $args['before_title'] . $title . $args['after_title']; 
 
 
         global $wp_query;
@@ -85,9 +85,8 @@ class b4bProductCategories_widget extends WP_Widget {
             $terms = get_term_children( $cat->term_id,  $taxonomy );
             $checked = in_array($cat->slug,$categories) ? 'checked':'';
             echo '
-            <li class="shop-categories__item' . $active_cat . '">' .
-                
-                '<label href1="' . esc_url( get_term_link( $cat ) ) . '" data-term="'.$cat->id.'">'.
+            <li class="shop-categories__item' . $active_cat . ' shop-categories__item--parent" >' .
+                '<label class="shop-categories__label">'.
                 '<input name="product_cat[]" type="checkbox" value="'.$cat->slug.'" '.$checked.'>'.
                 '<span class="shop-categories__title">' . esc_html( $cat->name ) . '</span>';
                 if(!empty($terms) ) {
@@ -114,15 +113,16 @@ class b4bProductCategories_widget extends WP_Widget {
                     foreach($sub_cats as $sub_category) {
                         $active_cat_S = $sub_category->name == single_cat_title( '', false ) ? ' is-active' : '';
                         $checked = in_array($sub_category->slug,$categories) ? 'checked':'';
-                        echo '
-                        <label class="shop-categories__item' . $active_cat_S . '">' .
+                        echo '<li class="shop-categories__item shop-categories__item--child">
+                        <label class="shop-categories__label' . $active_cat_S . '" >' .
                         '<input name="product_cat[]" type="checkbox"  value="'.$sub_category->slug.'" '.$checked.'>'.
                             '<span href1="' . esc_url( get_term_link( $sub_category ) ) . '">' .
                            
                             '<span class="shop-categories__title">' . esc_html( $sub_category->name ) . '</span>' .
-                            ' <span class="shop-categories__count">' . $sub_category->count . '</span>'.
+                            ' <span class="shop-categories__count">(' . $sub_category->count . ')</span>'.
                             '</span>
-                        </label>' ;
+                        </label>
+                        </li>' ;
                     }   
                 }
                 echo '</ul>';
@@ -134,7 +134,7 @@ class b4bProductCategories_widget extends WP_Widget {
         }
 
         echo '</ul>
-        <button class="btn btn--primary .testajax">Test Ajax<button>
+        
         ';
         }
     

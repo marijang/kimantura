@@ -124,3 +124,48 @@ jQuery('.main_visual .jt_btn').hover(function(){
 
 main_visual_slider();
 home_slider();
+
+
+
+var scrollElemToWatch_1 = document.getElementById('post-4295');
+var watcher_1 = scrollMonitor.create(scrollElemToWatch_1, -300);	
+var rev3 = new RevealFx(scrollElemToWatch_1, {
+              revealSettings : {
+                bgcolor: '#fcf652',
+                direction: 'rl',
+                onCover: function(contentEl, revealerEl) {
+                  contentEl.style.opacity = 1;
+                }
+              }
+            });
+
+            
+rev4 = new RevealFx(scrollElemToWatch_1.querySelector(".post__info"), {
+                revealSettings : {
+                bgcolor: '#7f40f1',
+                direction: 'rl',
+                delay: 250,
+                onCover: function(contentEl, revealerEl) {
+                  contentEl.style.opacity = 1;
+                }
+              }
+      });
+
+      rev5 = new RevealFx(scrollElemToWatch_1.querySelector(".post__image"), {
+        revealSettings : {
+        bgcolor: '#00000',
+        direction: 'rl',
+        delay: 150,
+        onCover: function(contentEl, revealerEl) {
+          contentEl.style.opacity = 1;
+        }
+      }
+});
+      
+watcher_1.enterViewport(function() {
+  //alert('usao');
+  rev3.reveal();
+  rev4.reveal();
+  rev5.reveal();
+  watcher_1.destroy();
+});
