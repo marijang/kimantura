@@ -59,7 +59,11 @@ if ( post_password_required() ) {
 			 * @hooked WC_Structured_Data::generate_product_data() - 60
 			 */
 			do_action( 'woocommerce_single_product_summary' );
+			//do_shortcode('addthis_sharing_buttons');
 		?>
+		<?php echo eyespeak_share(); ?>
+		
+		
 	</div>
 
 

@@ -765,7 +765,7 @@ add_action( 'woocommerce_archive_description', 'b4b_wc_category_description', 10
 
 
 
-remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_meta', 40 );
+//remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_meta', 40 );
 // Makni  breadcrumb
 remove_action( 'woocommerce_before_main_content','woocommerce_breadcrumb', 20, 0);
 
