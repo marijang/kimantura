@@ -92,8 +92,33 @@
 		}
 	}
 
+	@include m('ghost-inverted'){
+		border: 1px solid $button-primary-color;
+		color: $button-primary-color;
+		background:transparent;
+		z-index: 1000;
+		&::after {
+			width: 0%;
+			height: 100%;
+			top: 0;
+			left: 0;
+			background:$button-primary-background-hover-color;
+		}
+		&:hover,:active{
+			color:$button-primary-hover-color;
+			background: transparent;
+			&::after{
+				width: 100%;
+			}
+		}
+	}
+
 	@include m('fluid'){
 		display: block;
+	}
+
+	@include m("wide"){
+		padding: $grid-gutter $grid-gutter*3;
 	}
 
 	@include m('small'){

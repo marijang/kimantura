@@ -1,0 +1,74 @@
+@include b('login'){
+
+    @include e('boxes'){
+        display: flex;
+    }
+
+    @include e('box'){
+        flex-basis: calc(50% + 64px);
+        background-color: $primary-color;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        padding: 48px;
+        z-index: 4;
+        color: $color-white;
+        #submit-btn{
+            display: none;
+        }
+
+        .login__row {
+            display: none;
+        }
+
+        input {
+            background-color: $primary-color!important;
+            color: $color-white!important;
+        }
+
+        &.is-active {
+            .login__row {
+                display: block;
+            }
+            background-color: $color-white;
+            z-index: 5;
+            color: $color-black;
+
+            input {
+                background-color: $color-white!important;
+                color: $color-black!important;
+            }
+
+            #toggle-btn{
+                display: none;
+            }
+
+            #submit-btn{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            
+        }
+
+        @include m('log'){
+            margin-bottom: 72px;
+            padding: 48px 176px 48px 48px;
+
+            &.is-active{
+                padding: 48px;
+            }
+            //margin-right: -64px;
+        }
+
+        @include m('reg'){
+            margin-top: 72px;
+            margin-left: -128px;
+            padding: 48px 48px 48px 176px;
+
+            &.is-active{
+                padding: 48px;
+            }
+        }
+    }
+}
+
