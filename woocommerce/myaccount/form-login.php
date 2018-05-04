@@ -75,7 +75,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			</p>
 			<p class="form-row" id="toggle-btn">
 				<?php wp_nonce_field( 'woocommerce-login', 'woocommerce-login-nonce' ); ?>
-				<button class="btn btn--ghost-inverted btn--wide" name="login-toggle" id='log-toggle'><?php esc_html_e( 'Login', 'woocommerce' ); ?></button>
+				<a class="btn btn--ghost-inverted btn--wide" name="login-toggle" id='log-toggle'><?php esc_html_e( 'Login', 'woocommerce' ); ?></a>
 			</p>
 			
 
@@ -92,7 +92,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<h2><?php esc_html_e( 'Register', 'woocommerce' ); ?></h2>
 		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque consequat rhoncus dolor a accumsan.</p>
 
-		<form method="post" class="register">
+		<form method="post" class="register" autocomplete="off">
 
 			<?php do_action( 'woocommerce_register_form_start' ); ?>
 
@@ -100,7 +100,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 				<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide login__row">
 					<label for="reg_username"><?php esc_html_e( 'Username', 'woocommerce' ); ?> <span class="required">*</span></label>
-					<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="username" id="reg_username" value="<?php echo ( ! empty( $_POST['username'] ) ) ? esc_attr( wp_unslash( $_POST['username'] ) ) : ''; ?>" /><?php // @codingStandardsIgnoreLine ?>
+					<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="username" id="reg_username" autocomplete="off" value="<?php echo ( ! empty( $_POST['username'] ) ) ? esc_attr( wp_unslash( $_POST['username'] ) ) : ''; ?>" /><?php // @codingStandardsIgnoreLine ?>
 				</p>
 
 			<?php endif; ?>
@@ -114,7 +114,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 				<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide login__row">
 					<label for="reg_password"><?php esc_html_e( 'Password', 'woocommerce' ); ?> <span class="required">*</span></label>
-					<input type="password" class="woocommerce-Input woocommerce-Input--text input-text" name="password" id="reg_password" />
+					<input type="password" autocomplete="new-password" class="woocommerce-Input woocommerce-Input--text input-text" name="password" id="reg_password" />
 				</p>
 
 			<?php endif; ?>
@@ -123,11 +123,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 			<p class="woocommerce-FormRow form-row" id="submit-btn">
 				<?php wp_nonce_field( 'woocommerce-register', 'woocommerce-register-nonce' ); ?>
-				<button type="submit" class="btn btn--primary btn--wide woocommerce-Button button" name="register"  value="<?php esc_attr_e( 'Register', 'woocommerce' ); ?>"><?php esc_html_e( 'Register', 'woocommerce' ); ?></button>
+				<button type="submit" class="btn btn--primary btn--wide woocommerce-Button button" name="register" value="<?php esc_attr_e( 'Register', 'woocommerce' ); ?>"><?php esc_html_e( 'Register', 'woocommerce' ); ?></button>
 			</p>
 			<p class="woocommerce-FormRow form-row" id="toggle-btn">
 				
-				<button class="btn btn--ghost-inverted btn--wide" name="register-toggle" id="reg-toggle"><?php esc_html_e( 'Register', 'woocommerce' ); ?></button>
+				<a class="btn btn--ghost-inverted btn--wide" name="register-toggle" id="reg-toggle"><?php esc_html_e( 'Register', 'woocommerce' ); ?></a>
 			</p>
 
 			<?php do_action( 'woocommerce_register_form_end' ); ?>

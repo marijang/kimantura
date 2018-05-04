@@ -24,7 +24,14 @@
     }
 }
 
-.woocommerce-MyAccount-content{
-    flex:3;
+.account__content {
     display: flex;
+
+    form{
+        min-width: 50%;
+    }
 }
+// .woocommerce-MyAccount-content{
+//     flex:3;
+//     display: flex;
+// }
